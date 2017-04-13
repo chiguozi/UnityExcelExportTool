@@ -26,6 +26,7 @@ public class Excel
     {
         var loader = GetLoader();
         _excelData = loader.Load();
+        InitGameData();
     }
 
     void InitGameData()
@@ -37,13 +38,37 @@ public class Excel
         if (row + 1 >= _excelData.count)
             return;
         row = ProcessFieldNames(row);
-
-
+        ProcessExcelContent(row);
     }
 
     public void ProcessExcelContent(int row)
     {
+        int lineNum = 0;
+        for(int rowNum = row; rowNum < _excelData.count; rowNum++)
+        {
+            var rowData = _excelData.GetRow(rowNum);
+            //空行跳过
+            if (rowData.IsEmpty)
+                continue;
+            //结束颜色判断
+            if (rowData.GetCell(0).rule == ExcelRule.Finish)
+                break;
+            for(int column = 0; column < rowData.count; column++)
+            {
+                var cell = rowData.GetCell(column);
+                //cell允许empty
+                if(clientFieldIndexList.Contains(column))
+                {
+                    clientData.AddCell(lineNum, cell);
+                }
 
+                if(serverFieldIndexList.Contains(column))
+                {
+                    serverData.AddCell(lineNum, cell);
+                }
+            }
+            lineNum++;
+        }
     }
 
     public int ProcessFieldTypes(int row)
