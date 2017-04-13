@@ -16,7 +16,8 @@ public class SupportTypeUtil
         { "dictionary<int,int>", "Dictionary<int, int>" },
         { "dictionary<int, string>", "Dictionary<int, int>" },
         { "dictionary<string, int>", "Dictionary<string, int>" },
-        { "dictionary<string, string>", "Dictionary<string, string>" }
+        { "dictionary<string, string>", "Dictionary<string, string>" },
+        { "des", "des" },
     };
 
     static Dictionary<string,string> _supportUnityTypeSet = new Dictionary<string, string>()
@@ -27,8 +28,10 @@ public class SupportTypeUtil
 
     static public bool TryGetType(string origin, out string formatType)
     {
-        origin = origin.ToLower();
         formatType = "string";
+        if (origin == null)
+            return false;
+        origin = origin.ToLower();
         if(_supportCSTypeSet.ContainsKey(origin))
         {
             formatType = _supportCSTypeSet[origin];

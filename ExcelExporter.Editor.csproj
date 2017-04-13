@@ -140,6 +140,7 @@
   <ItemGroup>
     <Compile Include="Assets\Editor\DataExporter\DataExporterWindow.cs" />
     <Compile Include="Assets\Editor\DataExporter\Excel.cs" />
+    <Compile Include="Assets\Editor\DataExporter\ExcelClassCreater.cs" />
     <Compile Include="Assets\Editor\DataExporter\ExcelData.cs" />
     <Compile Include="Assets\Editor\DataExporter\ExcelGameData.cs" />
     <Compile Include="Assets\Editor\DataExporter\IExcelLoader.cs" />

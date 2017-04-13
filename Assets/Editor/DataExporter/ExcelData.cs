@@ -19,7 +19,7 @@ public class ExcelRuleUtil
     {
         { Rgb2Int(0,128,0), ExcelRule.Common},
         { Rgb2Int(255,204,0), ExcelRule.Server},
-        { Rgb2Int(0,204,205), ExcelRule.Client},
+        { Rgb2Int(0,204,255), ExcelRule.Client},
         { Rgb2Int(128,128,128), ExcelRule.Ignore},
         { Rgb2Int(0,51,102), ExcelRule.Finish},
         { Rgb2Int(0,0,0), ExcelRule.Content},

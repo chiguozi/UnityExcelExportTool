@@ -31,14 +31,16 @@ public class Excel
 
     void InitGameData()
     {
-        serverData = new ExcelGameData();
+        clientData = new ExcelGameData();
         serverData = new ExcelGameData();
         int row = PassIgnoreRow();
         //名称行和类型行
         if (row + 1 >= _excelData.count)
             return;
         row = ProcessFieldNames(row);
+        row = ProcessFieldTypes(row);
         ProcessExcelContent(row);
+
     }
 
     public void ProcessExcelContent(int row)
@@ -77,9 +79,12 @@ public class Excel
         for(int i = 0; i < rowData.count; i++)
         {
             var cell = rowData.GetCell(i);
-            string type;
-            if (!SupportTypeUtil.TryGetType(cell.stringValue, out type))
-                Debug.LogError(string.Format("{0}  不支持类型 {1}  替换为string ", _fileName, cell.stringValue));
+            string type = "string";
+
+            if(clientFieldIndexList.Contains(i) || serverFieldIndexList.Contains(i))
+                if (!SupportTypeUtil.TryGetType(cell.stringValue, out type))
+                    Debug.LogError(string.Format("{0}  不支持类型 {1}  替换为string ", _fileName, cell.stringValue));
+            
             //单次循环处理完 
             if (clientFieldIndexList.Contains(i))
             {

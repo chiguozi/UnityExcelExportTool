@@ -62,6 +62,7 @@ public class NPOILoader : IExcelLoader
         CellType type;
         var obj = GetValueType(cell, out type);
         excelCell.value = obj;
+        excelCell.stringValue = obj == null ? "" : obj.ToString();
         if (cell.CellStyle.FillForegroundColorColor != null)
             excelCell.rgb = cell.CellStyle.FillForegroundColorColor.RGB;
         else
