@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2015
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExcelExporter", "ExcelExporter.csproj", "{C1E5D166-3B6D-DA8E-FFDE-F319573E4CC4}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExcelExporter.Editor", "ExcelExporter.Editor.csproj", "{F9C42EA4-A5EF-51FE-E084-B30857B4BF28}"
 EndProject
 Global
@@ -9,6 +11,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C1E5D166-3B6D-DA8E-FFDE-F319573E4CC4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1E5D166-3B6D-DA8E-FFDE-F319573E4CC4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1E5D166-3B6D-DA8E-FFDE-F319573E4CC4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1E5D166-3B6D-DA8E-FFDE-F319573E4CC4}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F9C42EA4-A5EF-51FE-E084-B30857B4BF28}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F9C42EA4-A5EF-51FE-E084-B30857B4BF28}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F9C42EA4-A5EF-51FE-E084-B30857B4BF28}.Release|Any CPU.ActiveCfg = Release|Any CPU

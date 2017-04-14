@@ -40,7 +40,6 @@ public class Excel
         row = ProcessFieldNames(row);
         row = ProcessFieldTypes(row);
         ProcessExcelContent(row);
-
     }
 
     public void ProcessExcelContent(int row)
