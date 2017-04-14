@@ -13,7 +13,10 @@ public class DataExporterWindow : EditorWindow
         Excel excel = new Excel(XLSPATH);
         excel.Load();
         ExcelClassGenerater generater = new ExcelClassGenerater();
-        generater.GenerateClientClass(Application.dataPath + "/Script/ConfigText", "Test1", excel.clientData);
+        generater.GenerateClientClass(Application.dataPath + "/Script/ConfigText/", "Cfg" + excel.fileName, excel.clientData);
+        ExcelDataGenerater dataGenerater = new ExcelDataGenerater();
+        dataGenerater.GenerateData(Application.dataPath + "/Resources/ConfigText/", excel.fileName + ".bytes", excel.clientData);
+        generater.GenerateClientClassFactory(Application.dataPath + "/Resources/ConfigText/", Application.dataPath + "/Script/ConfigText/");
         AssetDatabase.Refresh();
     }
 
@@ -23,7 +26,10 @@ public class DataExporterWindow : EditorWindow
         Excel excel = new Excel(XLSXPATH);
         excel.Load();
         ExcelClassGenerater generater = new ExcelClassGenerater();
-        generater.GenerateClientClass(Application.dataPath + "/Script/ConfigText", "Test", excel.clientData);
+        generater.GenerateClientClass(Application.dataPath + "/Script/ConfigText/", "Cfg" + excel.fileName, excel.clientData);
+        ExcelDataGenerater dataGenerater = new ExcelDataGenerater();
+        dataGenerater.GenerateData(Application.dataPath + "/Resources/ConfigText/", excel.fileName + ".bytes", excel.clientData);
+        generater.GenerateClientClassFactory(Application.dataPath + "/Resources/ConfigText/", Application.dataPath + "/Script/ConfigText/");
         AssetDatabase.Refresh();
     }
 }

@@ -148,11 +148,13 @@
     <Compile Include="Assets\Editor\DataExporter\Excel.cs" />
     <Compile Include="Assets\Editor\DataExporter\ExcelClassGenerater.cs" />
     <Compile Include="Assets\Editor\DataExporter\ExcelData.cs" />
+    <Compile Include="Assets\Editor\DataExporter\ExcelDataGenerater.cs" />
     <Compile Include="Assets\Editor\DataExporter\ExcelExporterDefine.cs" />
     <Compile Include="Assets\Editor\DataExporter\ExcelGameData.cs" />
-    <Compile Include="Assets\Editor\DataExporter\IExcelLoader.cs" />
     <Compile Include="Assets\Editor\DataExporter\NPOILoader.cs" />
     <Compile Include="Assets\Editor\DataExporter\SupportTypeUtil.cs" />
+    <Compile Include="Assets\Editor\DataExporter\interface\IExcelClassGenerater.cs" />
+    <Compile Include="Assets\Editor\DataExporter\interface\IExcelLoader.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Editor\Lib\EPP\EPPlus.XML" />

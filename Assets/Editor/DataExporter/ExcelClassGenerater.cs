@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 
 //不写成静态类
 //@todo  添加模板方式
-public class ExcelClassGenerater
+public class ExcelClassGenerater : IExcelClassGenerater
 {
     public void GenerateClientClass(string savePath, string className, ExcelGameData data)
     {
@@ -56,6 +56,42 @@ public class ExcelClassGenerater
         sb.AppendLine("}");
 
         File.WriteAllText(savePath + fileName, sb.ToString());
+    }
+
+    public void GenerateServerClass(string savePath, string className, ExcelGameData data)
+    { }
+
+    public void GenerateClientClassFactory(string dataPath, string savePath)
+    {
+        var files = Directory.GetFiles(dataPath, "*.bytes");
+        List<string> classNameList = new List<string>();
+        for(int i = 0; i < files.Length; i++)
+        {
+            //@todo +宏
+            string fileName = Path.GetFileNameWithoutExtension(files[i]);
+            classNameList.Add(fileName);
+        }
+        StringBuilder sb = new StringBuilder();
+        sb.AppendLine("public class " + "ConfigFactory");
+        sb.AppendLine("{");
+        sb.AppendLine("\tpublic static ConfigBase Get(string configName)");
+        sb.AppendLine("\t{");
+        sb.AppendLine("\t\tswitch(configName)");
+        sb.AppendLine("\t\t{");
+
+        for (int i = 0; i < classNameList.Count; i++)
+        {
+            sb.AppendLine("\t\t\tcase \"" + classNameList[i] + "\":");
+            sb.AppendLine("\t\t\t\treturn new " + "Cfg" + classNameList[i] + "();");
+        }
+        sb.AppendLine("\t\t\tdefault:");
+        sb.AppendLine("\t\t\t\tUnityEngine.Debug.LogError(configName + \"not found\");");
+        sb.AppendLine("\t\t\t\treturn null;");
+
+        sb.AppendLine("\t\t}");
+        sb.AppendLine("\t}");
+        sb.AppendLine("}");
+        File.WriteAllText(Path.Combine(savePath, "ConfigFactory.cs"), sb.ToString());
     }
 
 }

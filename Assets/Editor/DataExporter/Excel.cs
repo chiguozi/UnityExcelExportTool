@@ -15,9 +15,22 @@ public class Excel
     public ExcelGameData serverData;
     public ExcelGameData clientData;
 
+    public string fileName
+    {
+        get
+        {
+            return _fileName;
+        }
+
+        set
+        {
+            _fileName =  value ;
+        }
+    }
+
     public Excel(string fullPath)
     {
-        _fileName = Path.GetFileNameWithoutExtension(fullPath);
+        fileName = Path.GetFileNameWithoutExtension(fullPath);
         _fullPath = fullPath;
         _extension = Path.GetExtension(fullPath);
     }
@@ -82,7 +95,7 @@ public class Excel
 
             if(clientFieldIndexList.Contains(i) || serverFieldIndexList.Contains(i))
                 if (!SupportTypeUtil.TryGetType(cell.stringValue, out type))
-                    Debug.LogError(string.Format("{0}  不支持类型 {1}  替换为string ", _fileName, cell.stringValue));
+                    Debug.LogError(string.Format("{0}  不支持类型 {1}  替换为string ", fileName, cell.stringValue));
             
             //单次循环处理完 
             if (clientFieldIndexList.Contains(i))
@@ -109,7 +122,7 @@ public class Excel
                 continue;
             if (fieldNameSet.Contains(cell.stringValue))
             {
-                Debug.LogError(string.Format("表{0}  {1}字段名重复", _fileName, cell.stringValue));
+                Debug.LogError(string.Format("表{0}  {1}字段名重复", fileName, cell.stringValue));
                 continue;
             }
             fieldNameSet.Add(cell.stringValue);
