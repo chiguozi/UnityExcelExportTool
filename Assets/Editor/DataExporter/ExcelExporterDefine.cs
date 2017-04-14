@@ -17,4 +17,7 @@ public class ExcelExporterDefine
     public static string ClientClassExt = ".cs";
 
     public static string ClientClassPre = "Cfg";
+
+    public static string ConfigFactoryName = "ConfigFactory";
+
 }

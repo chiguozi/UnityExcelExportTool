@@ -72,7 +72,7 @@ public class ExcelClassGenerater : IExcelClassGenerater
             classNameList.Add(fileName);
         }
         StringBuilder sb = new StringBuilder();
-        sb.AppendLine("public class " + "ConfigFactory");
+        sb.AppendLine("public class " + ExcelExporterDefine.ConfigFactoryName);
         sb.AppendLine("{");
         sb.AppendLine("\tpublic static ConfigBase Get(string configName)");
         sb.AppendLine("\t{");
@@ -82,7 +82,7 @@ public class ExcelClassGenerater : IExcelClassGenerater
         for (int i = 0; i < classNameList.Count; i++)
         {
             sb.AppendLine("\t\t\tcase \"" + classNameList[i] + "\":");
-            sb.AppendLine("\t\t\t\treturn new " + "Cfg" + classNameList[i] + "();");
+            sb.AppendLine("\t\t\t\treturn new " + ExcelExporterDefine.ClientClassPre + classNameList[i] + "();");
         }
         sb.AppendLine("\t\t\tdefault:");
         sb.AppendLine("\t\t\t\tUnityEngine.Debug.LogError(configName + \"not found\");");
@@ -91,7 +91,7 @@ public class ExcelClassGenerater : IExcelClassGenerater
         sb.AppendLine("\t\t}");
         sb.AppendLine("\t}");
         sb.AppendLine("}");
-        File.WriteAllText(Path.Combine(savePath, "ConfigFactory.cs"), sb.ToString());
+        File.WriteAllText(Path.Combine(savePath, ExcelExporterDefine.ConfigFactoryName) + ExcelExporterDefine.ClientClassExt, sb.ToString());
     }
 
 }
