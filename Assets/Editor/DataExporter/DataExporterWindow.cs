@@ -10,27 +10,27 @@ public class DataExporterWindow : EditorWindow
     [MenuItem("Tools/xls")]
     static void TestXLS()
     {
-        Excel excel = new Excel(XLSPATH);
+        TestExcel(XLSPATH);
+    }
+
+    private static void TestExcel(string path)
+    {
+        Excel excel = new Excel(path);
         excel.Load();
         ExcelClassGenerater generater = new ExcelClassGenerater();
-        generater.GenerateClientClass(Application.dataPath + "/Script/ConfigText/", "Cfg" + excel.fileName, excel.clientData);
+        Debug.LogError(ExcelExporterUtil.GetClientClassOutputPath());
+        Debug.LogError(ExcelExporterUtil.GetClientDataOutputPath());
+        generater.GenerateClientClass(ExcelExporterUtil.GetClientClassOutputPath(), ExcelExporterUtil.GetClientClassFileName(excel.fileName), excel.clientData);
         ExcelDataGenerater dataGenerater = new ExcelDataGenerater();
-        dataGenerater.GenerateData(Application.dataPath + "/Resources/ConfigText/", excel.fileName + ".bytes", excel.clientData);
-        generater.GenerateClientClassFactory(Application.dataPath + "/Resources/ConfigText/", Application.dataPath + "/Script/ConfigText/");
+        dataGenerater.GenerateData(ExcelExporterUtil.GetClientDataOutputPath(), ExcelExporterUtil.GetDataFileFullName(excel.fileName), excel.clientData);
+        generater.GenerateClientClassFactory(ExcelExporterUtil.GetClientDataOutputPath(), ExcelExporterUtil.GetClientClassOutputPath());
         AssetDatabase.Refresh();
     }
 
     [MenuItem("Tools/xlsx")]
     static void TestXLSX()
     {
-        Excel excel = new Excel(XLSXPATH);
-        excel.Load();
-        ExcelClassGenerater generater = new ExcelClassGenerater();
-        generater.GenerateClientClass(Application.dataPath + "/Script/ConfigText/", "Cfg" + excel.fileName, excel.clientData);
-        ExcelDataGenerater dataGenerater = new ExcelDataGenerater();
-        dataGenerater.GenerateData(Application.dataPath + "/Resources/ConfigText/", excel.fileName + ".bytes", excel.clientData);
-        generater.GenerateClientClassFactory(Application.dataPath + "/Resources/ConfigText/", Application.dataPath + "/Script/ConfigText/");
-        AssetDatabase.Refresh();
+        TestExcel(XLSXPATH);
     }
 }
 
