@@ -55,6 +55,12 @@ public class Excel
         InitGameData();
     }
 
+    public void Write(string outputPath)
+    {
+        var writer = GetWriter();
+        writer.Write(outputPath, excelData);
+    }
+
     void InitGameData()
     {
         clientData = new ExcelGameData();
@@ -184,6 +190,11 @@ public class Excel
     IExcelLoader GetLoader()
     {
         return new NPOILoader(_fullPath);
+    }
+
+    IExcelWriter GetWriter()
+    {
+        return new NPOIWriter();
     }
 
 
