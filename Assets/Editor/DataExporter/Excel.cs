@@ -28,6 +28,19 @@ public class Excel
         }
     }
 
+    public ExcelData excelData
+    {
+        get
+        {
+            return _excelData;
+        }
+
+        set
+        {
+            _excelData =  value ;
+        }
+    }
+
     public Excel(string fullPath)
     {
         fileName = Path.GetFileNameWithoutExtension(fullPath);
@@ -38,7 +51,7 @@ public class Excel
     public void Load()
     {
         var loader = GetLoader();
-        _excelData = loader.Load();
+        excelData = loader.Load();
         InitGameData();
     }
 
@@ -48,7 +61,7 @@ public class Excel
         serverData = new ExcelGameData();
         int row = PassIgnoreRow();
         //名称行和类型行
-        if (row + 1 >= _excelData.count)
+        if (row + 1 >= excelData.count)
             return;
         row = ProcessFieldNames(row);
         row = ProcessFieldTypes(row);
@@ -58,9 +71,9 @@ public class Excel
     public void ProcessExcelContent(int row)
     {
         int lineNum = 0;
-        for(int rowNum = row; rowNum < _excelData.count; rowNum++)
+        for(int rowNum = row; rowNum < excelData.count; rowNum++)
         {
-            var rowData = _excelData.GetRow(rowNum);
+            var rowData = excelData.GetRow(rowNum);
             //空行跳过
             if (rowData.IsEmpty)
                 continue;
@@ -87,7 +100,7 @@ public class Excel
 
     public int ProcessFieldTypes(int row)
     {
-        var rowData = _excelData.GetRow(row);
+        var rowData = excelData.GetRow(row);
         for(int i = 0; i < rowData.count; i++)
         {
             var cell = rowData.GetCell(i);
@@ -113,7 +126,7 @@ public class Excel
 
     public int ProcessFieldNames(int row)
     {
-        var rowData = _excelData.GetRow(row);
+        var rowData = excelData.GetRow(row);
         HashSet<string> fieldNameSet = new HashSet<string>();
         for(int i = 0; i < rowData.count; i++)
         {
@@ -146,14 +159,14 @@ public class Excel
     //空行，第一个cell是ignore或者包含//  都表示注释行
     int PassIgnoreRow()
     {
-        for (int i = 0; i < _excelData.count; i++)
+        for (int i = 0; i < excelData.count; i++)
         {
-            var row = _excelData.GetRow(i);
+            var row = excelData.GetRow(i);
             if (row.IsEmpty || row.GetCell(0).stringValue.StartsWith("//") || row.GetCell(0).rule == ExcelRule.Ignore)
                 continue;
             return i;
         }
-        return _excelData.count;
+        return excelData.count;
     }
 
 

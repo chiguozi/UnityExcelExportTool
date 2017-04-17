@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using UnityEngine;
 
 //excel内的全部数据  不做过滤
 public enum ExcelRule
@@ -73,7 +75,8 @@ public class ExcelRow
 {
     public int row;
     public List<ExcelCell> cellList = new List<ExcelCell>();
-
+    public Dictionary<int, ExcelCell> cellMap = new Dictionary<int, ExcelCell>();
+    public bool isDirty = false;
     public bool IsEmpty
     {
         get { return cellList == null || cellList.Count == 0; }
@@ -81,11 +84,32 @@ public class ExcelRow
 
     public int count { get { return cellList == null ? 0 : cellList.Count; } }
 
+    public void AddCell(ExcelCell cell)
+    {
+        cellList.Add(cell);
+        cellMap.Add(cell.index, cell);
+    }
+
     public ExcelCell GetCell(int index)
     {
-        if (index >= count)
-            return null;
-        return cellList[index];
+        if (cellMap.ContainsKey(index))
+            return cellMap[index];
+        return null;
+    }
+
+    //写数据时，不关心excelrule
+    public void SetCellData(int column, object obj, Type type)
+    {
+        if (!cellMap.ContainsKey(column))
+        {
+            ExcelCell cell = new ExcelCell();
+            cell.index = column;
+            AddCell(cell);
+        }
+       
+        cellMap[column].value = obj;
+        cellMap[column].stringValue = obj.ToString();
+        isDirty = true;
     }
 }
 
@@ -101,5 +125,32 @@ public class ExcelData
         if (index >= excelRows.Count)
             return null;
         return excelRows[index];
+    }
+
+    public void SetCellValue(int row, int column, object value, Type type)
+    {
+        if (row > count)
+        {
+            Debug.LogError("不能跨行插入   行 = " + count);
+            return;
+        }
+        if(row == count)
+        {
+            var excelRow = new ExcelRow();
+            excelRow.row = row;
+            excelRow.cellList = new List<ExcelCell>();
+            excelRows.Add(excelRow);
+        }
+        var changeRow = excelRows[row];
+        changeRow.SetCellData(column, value, type);
+    }
+
+    //用于拷贝数据时
+    public void SetAllDirty()
+    {
+        for(int i = 0; i < excelRows.Count; i++)
+        {
+            excelRows[i].isDirty = true;
+        }
     }
 }

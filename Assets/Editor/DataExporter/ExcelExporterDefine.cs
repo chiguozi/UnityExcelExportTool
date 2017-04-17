@@ -27,7 +27,8 @@ public class ExcelExporterUtil
 
     public static string ConfigFactoryName = "ConfigFactory";
 
-
+    public const string XLSEXT = ".xls";
+    public const string XLSXEXT = ".xlsx";
 
 
     public static string SeverDataOutputPath = "";

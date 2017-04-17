@@ -33,15 +33,17 @@ public class NPOILoader : IExcelLoader
         excel.excelRows = new List<ExcelRow>();
         for (int i = sheet.FirstRowNum; i < sheet.LastRowNum; i++)
         {
-            excel.excelRows.Add(GetExcelRow(sheet.GetRow(i)));
+            excel.excelRows.Add(GetExcelRow(sheet.GetRow(i), i));
         }
         workBook.Close();
         return excel;
     }
 
-    ExcelRow GetExcelRow(IRow row)
+    //需要记录行数
+    ExcelRow GetExcelRow(IRow row, int rowNum)
     {
         ExcelRow excelRow = new ExcelRow();
+        excelRow.row = rowNum;
         if (row == null)
             return excelRow;
 
@@ -49,14 +51,15 @@ public class NPOILoader : IExcelLoader
         excelRow.cellList = new List<ExcelCell>();
         for (int i = row.FirstCellNum; i < row.LastCellNum; i++)
         {
-            excelRow.cellList.Add(GetExcelCell(row.GetCell(i)));
+            excelRow.AddCell(GetExcelCell(row.GetCell(i), i));
         }
         return excelRow;
     }
 
-    ExcelCell GetExcelCell(ICell cell)
+    ExcelCell GetExcelCell(ICell cell, int index)
     {
         ExcelCell excelCell = new ExcelCell();
+        excelCell.index = index;
         if (cell == null)
             return excelCell;
         CellType type;
