@@ -12,6 +12,17 @@ public class DataExporterWindow : EditorWindow
     {
         TestExcel(XLSPATH);
     }
+    [MenuItem("Tools/write")]
+    static void Write()
+    {
+        Excel excel = new Excel(Application.dataPath + "/Test1.xls");
+        excel.Load();
+        excel.excelData.SetAllDirty();
+        excel.excelData.SetCellValue(2, 2, 10, typeof(string));
+        NPOIWriter writer = new NPOIWriter();
+        writer.Write(Application.dataPath + "/Test2.xls", excel.excelData);
+        AssetDatabase.Refresh();
+    }
 
     private static void TestExcel(string path)
     {

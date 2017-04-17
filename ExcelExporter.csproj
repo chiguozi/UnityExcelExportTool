@@ -12,7 +12,7 @@
     <ProjectTypeGuids>{E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
-    <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
+    <TargetFrameworkProfile>Unity Full v3.5</TargetFrameworkProfile>
     <CompilerResponseFile></CompilerResponseFile>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows:5</UnityBuildTarget>
@@ -77,10 +77,8 @@
   <ItemGroup>
     <Compile Include="Assets\Script\Config\Base\ConfigBase.cs" />
     <Compile Include="Assets\Script\Config\Base\ConfigManager.cs" />
-    <Compile Include="Assets\Script\ConfigText\CfgTest.cs" />
-    <Compile Include="Assets\Script\ConfigText\CfgTest1.cs" />
-    <Compile Include="Assets\Script\ConfigText\ConfigFactory.cs" />
-    <Compile Include="Assets\Script\ConfigText\Test1.cs" />
+    <Compile Include="Assets\Script\Data\ConfigT\CfgTest1.cs" />
+    <Compile Include="Assets\Script\Data\ConfigT\ConfigFactory.cs" />
     <Compile Include="Assets\Script\Main.cs" />
     <Compile Include="Assets\Script\Util\StringUtil.cs" />
   </ItemGroup>
