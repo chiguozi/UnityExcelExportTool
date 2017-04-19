@@ -41,10 +41,23 @@ public class Excel
         }
     }
 
+    public string FullPath
+    {
+        get
+        {
+            return _fullPath;
+        }
+
+        set
+        {
+            _fullPath =  value ;
+        }
+    }
+
     public Excel(string fullPath)
     {
         fileName = Path.GetFileNameWithoutExtension(fullPath);
-        _fullPath = fullPath;
+        FullPath = fullPath;
         _extension = Path.GetExtension(fullPath);
     }
 
@@ -59,6 +72,11 @@ public class Excel
     {
         var writer = GetWriter();
         writer.Write(outputPath, excelData);
+    }
+
+    public void Write()
+    {
+        Write(FullPath);
     }
 
     void InitGameData()
@@ -189,7 +207,7 @@ public class Excel
 
     IExcelLoader GetLoader()
     {
-        return new NPOILoader(_fullPath);
+        return new NPOILoader(FullPath);
     }
 
     IExcelWriter GetWriter()

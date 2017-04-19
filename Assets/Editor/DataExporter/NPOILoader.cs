@@ -31,7 +31,7 @@ public class NPOILoader : IExcelLoader
         excel.fileName = fileName;
         excel.filePath = _fullPath;
         excel.excelRows = new List<ExcelRow>();
-        for (int i = sheet.FirstRowNum; i < sheet.LastRowNum; i++)
+        for (int i = sheet.FirstRowNum; i <= sheet.LastRowNum; i++)
         {
             excel.excelRows.Add(GetExcelRow(sheet.GetRow(i), i));
         }

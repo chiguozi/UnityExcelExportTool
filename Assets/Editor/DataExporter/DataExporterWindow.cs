@@ -29,8 +29,6 @@ public class DataExporterWindow : EditorWindow
         Excel excel = new Excel(path);
         excel.Load();
         ExcelClassGenerater generater = new ExcelClassGenerater();
-        Debug.LogError(ExcelExporterUtil.GetClientClassOutputPath());
-        Debug.LogError(ExcelExporterUtil.GetClientDataOutputPath());
         generater.GenerateClientClass(ExcelExporterUtil.GetClientClassOutputPath(), ExcelExporterUtil.GetClientClassFileName(excel.fileName), excel.clientData);
         ExcelDataGenerater dataGenerater = new ExcelDataGenerater();
         dataGenerater.GenerateData(ExcelExporterUtil.GetClientDataOutputPath(), ExcelExporterUtil.GetDataFileFullName(excel.fileName), excel.clientData);
