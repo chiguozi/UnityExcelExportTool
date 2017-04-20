@@ -81,13 +81,13 @@ public class Excel
 
     public void GenerateClientScript()
     {
-        var generater = ExcelClientClassGeneraterFactory.Create();
+        var generater = ClassFactory.GetFactory(false).Create();
         generater.GenerateClass(ExcelExporterUtil.GetClientClassOutputPath(), ExcelExporterUtil.GetClientClassFileName(fileName), clientData);
     }
 
     public void GenerateClientData()
     {
-        var generater = ExcelClientDataGeneraterFactory.Create();
+        var generater = DataFactory.GetFactory(false).Create();
         generater.GenerateData(ExcelExporterUtil.GetClientDataOutputPath(), ExcelExporterUtil.GetDataFileFullName(fileName), clientData);
     }
 
