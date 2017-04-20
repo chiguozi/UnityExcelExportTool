@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
 
 public enum ExcelDataExportType
@@ -10,22 +9,28 @@ public enum ExcelDataExportType
     ScriptObject,
 }
 
+[Serializable]
 public class ExcelExporterUtil
 {
     //可以指定不同工程
+    [SerializeField]
     public static string AssetPath = Application.dataPath;
+    [SerializeField]
+    public static string ExcelPath = "";
 
     public static ExcelDataExportType exportType = ExcelDataExportType.Text;
 
-    public static string ResourcePath = AssetPath + "/Resources/Data/";
+    public static string ClientDataOutputPath = AssetPath + "/Resources/Data/";
 
-    public static string ScriptPath = AssetPath + "/Script/Data/";
+    public static string ClientScriptOutputPath = AssetPath + "/Script/Data/";
 
     public static string ClientClassExt = ".cs";
 
     public static string ClientClassPre = "Cfg";
 
     public static string ConfigFactoryName = "ConfigFactory";
+
+ 
 
     public const string XLSEXT = ".xls";
     public const string XLSXEXT = ".xlsx";
@@ -54,7 +59,7 @@ public class ExcelExporterUtil
                 subPath = "ConfigS/";
                 break;
         }
-        return ScriptPath + subPath;
+        return ClientScriptOutputPath + subPath;
     }
 
     public static string GetClientDataOutputPath()
@@ -75,13 +80,13 @@ public class ExcelExporterUtil
                 subPath = "DataS/";
                 break;
         }
-        return ResourcePath + subPath;
+        return ClientDataOutputPath + subPath;
     }
 
 
     public static string GetConfigFactoryFullPath()
     {
-        return ScriptPath + ConfigFactoryName + ClientClassExt;
+        return ClientScriptOutputPath + ConfigFactoryName + ClientClassExt;
     }
 
     public static string GetClientClassFileName(string fileName)

@@ -5,7 +5,7 @@ using UnityEditor;
 
 public class ExcelEditorWindow : EditorWindow
 {
-    [MenuItem("Excel/Open Excel Editor")]
+    [MenuItem("Excel/ExcelEditor")]
     public static void Open()
     {
         ExcelEditorWindow window = GetWindowWithRect<ExcelEditorWindow>(new Rect(0, 0, 600 , 400), false, "ExcelEditor");
@@ -16,6 +16,13 @@ public class ExcelEditorWindow : EditorWindow
         ExcelEditorWindow window = GetWindowWithRect<ExcelEditorWindow>(new Rect(0, 0, 600, 400), false, "ExcelEditor");
         window._excelPath = excel.FullPath;
         window._excel = excel;
+    }
+
+    public static void Open(string excelFullpath)
+    {
+        ExcelEditorWindow window = GetWindowWithRect<ExcelEditorWindow>(new Rect(0, 0, 600, 400), false, "ExcelEditor");
+        window._excelPath = excelFullpath;
+        window.LoadFile();
     }
 
 
@@ -30,7 +37,7 @@ public class ExcelEditorWindow : EditorWindow
         _excelPath = EditorGUILayout.TextField(_excelPath, GUILayout.Width(400));
         bool selectPath = GUILayout.Button("选择");
         if (selectPath)
-            _excelPath = SelectFile();
+            _excelPath = EditorWindowUtil.SelectFileWithFilters("选择Excel路径", _excelPath, new string[] { "xls,xlsx", "xls,xlsx" });
         EditorGUILayout.EndHorizontal();
 
         EditorGUILayout.BeginHorizontal();
@@ -70,7 +77,7 @@ public class ExcelEditorWindow : EditorWindow
     {
         if (string.IsNullOrEmpty(_excelPath))
         {
-            _excelPath = SelectFile();
+            _excelPath = EditorWindowUtil.SelectFileWithFilters("选择Excel路径", _excelPath, new string[] { "xls,xlsx", "xls,xlsx" });
         }
         if (string.IsNullOrEmpty(_excelPath) || (!_excelPath.EndsWith(".xls") && !_excelPath.EndsWith(".xlsx") ))
         {
@@ -90,10 +97,10 @@ public class ExcelEditorWindow : EditorWindow
     }
 
 
-    string SelectFile()
-    {
-        string path = EditorUtility.OpenFilePanelWithFilters("选择Excel路径", _excelPath, new string[] { "xls", "xls", "xlsx", "xlsx" });
-        return path;
-    }
+    //string SelectFile()
+    //{
+    //    string path = EditorUtility.OpenFilePanelWithFilters("选择Excel路径", _excelPath, new string[] { "xls,xlsx", "xls,xlsx"});
+    //    return path;
+    //}
 
 }

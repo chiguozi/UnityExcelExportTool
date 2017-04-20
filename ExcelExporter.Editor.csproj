@@ -145,6 +145,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Editor\DataExporter\DataExporterWindow.cs" />
+    <Compile Include="Assets\Editor\DataExporter\EditorWindowUtil.cs" />
+    <Compile Include="Assets\Editor\DataExporter\EppWriter.cs" />
     <Compile Include="Assets\Editor\DataExporter\Excel.cs" />
     <Compile Include="Assets\Editor\DataExporter\ExcelClassGenerater.cs" />
     <Compile Include="Assets\Editor\DataExporter\ExcelData.cs" />
@@ -152,10 +154,12 @@
     <Compile Include="Assets\Editor\DataExporter\ExcelEditorWindow.cs" />
     <Compile Include="Assets\Editor\DataExporter\ExcelExporterDefine.cs" />
     <Compile Include="Assets\Editor\DataExporter\ExcelGameData.cs" />
+    <Compile Include="Assets\Editor\DataExporter\Factorys.cs" />
     <Compile Include="Assets\Editor\DataExporter\NPOILoader.cs" />
     <Compile Include="Assets\Editor\DataExporter\NPOIWriter.cs" />
     <Compile Include="Assets\Editor\DataExporter\SupportTypeUtil.cs" />
     <Compile Include="Assets\Editor\DataExporter\interface\IExcelClassGenerater.cs" />
+    <Compile Include="Assets\Editor\DataExporter\interface\IExcelDataGenerater.cs" />
     <Compile Include="Assets\Editor\DataExporter\interface\IExcelLoader.cs" />
     <Compile Include="Assets\Editor\DataExporter\interface\IExcelWriter.cs" />
   </ItemGroup>

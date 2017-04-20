@@ -77,8 +77,8 @@
   <ItemGroup>
     <Compile Include="Assets\Script\Config\Base\ConfigBase.cs" />
     <Compile Include="Assets\Script\Config\Base\ConfigManager.cs" />
+    <Compile Include="Assets\Script\Data\ConfigT\CfgTest.cs" />
     <Compile Include="Assets\Script\Data\ConfigT\CfgTest1.cs" />
-    <Compile Include="Assets\Script\Data\ConfigT\ConfigFactory.cs" />
     <Compile Include="Assets\Script\Main.cs" />
     <Compile Include="Assets\Script\Util\StringUtil.cs" />
   </ItemGroup>

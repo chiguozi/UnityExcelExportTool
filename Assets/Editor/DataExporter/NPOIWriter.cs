@@ -10,7 +10,6 @@ public class NPOIWriter : IExcelWriter
 {
     string _fullPath;
     string _path;
-    string _fileName;
     string _ext;
     public NPOIWriter()
     {
@@ -20,7 +19,6 @@ public class NPOIWriter : IExcelWriter
     {
         _fullPath = fullPath;
         _path = Path.GetDirectoryName(fullPath);
-        _fileName = Path.GetFileName(fullPath);
         _ext = Path.GetExtension(fullPath);
         if (!Directory.Exists(_path))
             Directory.CreateDirectory(_path);

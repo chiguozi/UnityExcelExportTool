@@ -79,6 +79,19 @@ public class Excel
         Write(FullPath);
     }
 
+    public void GenerateClientScript()
+    {
+        var generater = ExcelClientClassGeneraterFactory.Create();
+        generater.GenerateClass(ExcelExporterUtil.GetClientClassOutputPath(), ExcelExporterUtil.GetClientClassFileName(fileName), clientData);
+    }
+
+    public void GenerateClientData()
+    {
+        var generater = ExcelClientDataGeneraterFactory.Create();
+        generater.GenerateData(ExcelExporterUtil.GetClientDataOutputPath(), ExcelExporterUtil.GetDataFileFullName(fileName), clientData);
+    }
+
+
     void InitGameData()
     {
         clientData = new ExcelGameData();
@@ -210,10 +223,13 @@ public class Excel
         return new NPOILoader(FullPath);
     }
 
+    //NPOI不支持2007版写入
+    //EPPlus不支持2003写入
     IExcelWriter GetWriter()
     {
-        return new NPOIWriter();
+        if (_extension == ".xls")
+            return new NPOIWriter();
+        else
+            return new EppWriter();
     }
-
-
 }

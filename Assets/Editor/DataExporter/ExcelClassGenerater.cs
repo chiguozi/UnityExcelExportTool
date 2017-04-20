@@ -7,9 +7,9 @@ using System.Text.RegularExpressions;
 
 //不写成静态类
 //@todo  添加模板方式
-public class ExcelClassGenerater : IExcelClassGenerater
+public class ExcelTextClassGenerater : IExcelClassGenerater
 {
-    public void GenerateClientClass(string savePath, string className, ExcelGameData data)
+    public void GenerateClass(string savePath, string className, ExcelGameData data)
     {
         if (!Directory.Exists(savePath))
             Directory.CreateDirectory(savePath);
@@ -57,9 +57,6 @@ public class ExcelClassGenerater : IExcelClassGenerater
 
         File.WriteAllText(savePath + fileName, sb.ToString());
     }
-
-    public void GenerateServerClass(string savePath, string className, ExcelGameData data)
-    { }
 
     public void GenerateClientClassFactory(string dataPath, string savePath)
     {

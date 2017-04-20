@@ -4,7 +4,7 @@ using UnityEngine;
 using System.Text;
 using System.IO;
 
-public class ExcelDataGenerater
+public class ExcelTextDataGenerater : IExcelDataGenerater
 {
     //fileName 带后缀名
     public void GenerateData(string savePath, string fileName, ExcelGameData data)
