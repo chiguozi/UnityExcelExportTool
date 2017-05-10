@@ -24,7 +24,7 @@ public class EditorWindowUtil
     {
         EditorGUILayout.LabelField(title);
         EditorGUILayout.BeginHorizontal();
-        EditorGUILayout.SelectableLabel(value);
+        EditorGUILayout.TextField(value);
         bool select = GUILayout.Button("选择");
         GUILayout.EndHorizontal();
         return select;

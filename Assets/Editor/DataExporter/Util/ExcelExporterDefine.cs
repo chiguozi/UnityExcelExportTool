@@ -26,6 +26,8 @@ public class ExcelExporterUtil
 
     public static string ClientClassExt = ".cs";
 
+    public static string ScriptableObjectExt = ".asset";
+
     public static string ClientClassPre = "Cfg";
 
     public static string ConfigFactoryName = "ConfigFactory";
