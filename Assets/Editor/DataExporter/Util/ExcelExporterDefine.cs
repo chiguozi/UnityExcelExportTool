@@ -18,7 +18,7 @@ public class ExcelExporterUtil
     [SerializeField]
     public static string ExcelPath = "";
 
-    public static ExcelDataExportType exportType = ExcelDataExportType.Text;
+    public static ExcelDataExportType exportType = ExcelDataExportType.ScriptObject;
 
     public static string ClientDataOutputPath = AssetPath + "/Resources/Data/";
 

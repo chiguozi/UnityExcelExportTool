@@ -168,7 +168,7 @@ public class Excel
         for(int i = 0; i < rowData.count; i++)
         {
             var cell = rowData.GetCell(i);
-            if (cell.IsEmpty)
+            if (cell.IsEmpty || string.IsNullOrEmpty(cell.stringValue))
                 continue;
             if (fieldNameSet.Contains(cell.stringValue))
             {

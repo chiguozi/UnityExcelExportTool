@@ -111,7 +111,13 @@ public class DataExporterWindow : EditorWindow
         bool selectClientScriptPath = EditorWindowUtil.DrawSelectPathView("客户端类输出路径：", _clientScriptOutputPath);
         bool selectClientDataPath = EditorWindowUtil.DrawSelectPathView("客户端数据输出路径：", _clientDataOutputPath);
 
-        _exportType = (ExcelDataExportType)EditorGUILayout.EnumPopup("文件导出类型", _exportType);
+        var type = (ExcelDataExportType)EditorGUILayout.EnumPopup("文件导出类型", _exportType);
+        if(type != _exportType)
+        {
+            _exportType = type;
+            ExcelExporterUtil.exportType = type;
+        }
+
 
         Rect rect = EditorGUILayout.GetControlRect(true, GUILayout.Height(100));
         GUI.Box(rect, "选择Excel文件");
@@ -179,6 +185,7 @@ public class DataExporterWindow : EditorWindow
         {
             GenSingleClientScript(_selectFiles[i]);
         }
+        AssetDatabase.Refresh();
     }
 
     void GenerateSelectedData()
@@ -192,6 +199,7 @@ public class DataExporterWindow : EditorWindow
         {
             GenSingleClientData(_selectFiles[i]);
         }
+        AssetDatabase.Refresh();
     }
 
     void GenSingleClientScript(string path)

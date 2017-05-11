@@ -54,6 +54,8 @@ public class ExcelClientClassGeneraterFactory : IClassFactory
         {
             case ExcelDataExportType.Text:
                 return new ExcelTextClassGenerater();
+            case ExcelDataExportType.ScriptObject:
+                return new ExcelScriptableObjectClassGenerater();
         }
 
         return null;
