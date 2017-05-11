@@ -4,11 +4,11 @@ using UnityEngine;
 
 namespace Config.ScriptableConfig
 {
-	public class CfgTest: ScriptableObject
+	[Serializable]
+	public class CfgTest: ConfigBase
 	{
-		public int A;
 		public string B;
 		public List<int> C;
-		public string E;
+		public int E;
 	}
 }

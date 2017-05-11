@@ -85,6 +85,11 @@ public class ExcelExporterUtil
         return ClientDataOutputPath + subPath;
     }
 
+    public static string GetRelativePath(string fullPath)
+    {
+        return fullPath.Replace(Application.dataPath, "Assets");
+    }
+
 
     public static string GetConfigFactoryFullPath()
     {
@@ -97,9 +102,15 @@ public class ExcelExporterUtil
         return ClientClassPre + fileName;
     }
 
-    //暂时所有类型都使用.bytes结尾
     public static string GetDataFileFullName(string excelName)
     {
+        switch (exportType)
+        {
+            case ExcelDataExportType.ScriptObject:
+                return excelName + ".asset";
+            case ExcelDataExportType.Text:
+                return excelName + ".bytes";
+        }
         return excelName + ".bytes";
     }
 

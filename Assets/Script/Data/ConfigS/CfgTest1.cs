@@ -4,9 +4,9 @@ using UnityEngine;
 
 namespace Config.ScriptableConfig
 {
-	public class CfgTest1: ScriptableObject
+	[Serializable]
+	public class CfgTest1: ConfigBase
 	{
-		public int A;
 		public string B;
 		public List<int> C;
 		public int E;

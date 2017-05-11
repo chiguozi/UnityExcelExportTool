@@ -83,6 +83,8 @@ public class ExcelClientDataGeneraterFactory : IDataFactory
         {
             case ExcelDataExportType.Text:
                 return new ExcelTextDataGenerater();
+            case ExcelDataExportType.ScriptObject:
+                return new ExcelScriptableObjectDataGenerater();
         }
         return null;
     }

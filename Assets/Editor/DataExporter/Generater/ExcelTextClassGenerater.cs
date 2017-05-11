@@ -61,7 +61,7 @@ public class ExcelTextClassGenerater : IExcelClassGenerater
         File.WriteAllText(savePath + fileName, sb.ToString());
     }
 
-    public void GenerateClientClassFactory(string dataPath, string savePath)
+    public static void GenerateClientClassFactory(string dataPath, string savePath)
     {
         var files = Directory.GetFiles(dataPath, "*.bytes");
         List<string> classNameList = new List<string>();
@@ -72,22 +72,25 @@ public class ExcelTextClassGenerater : IExcelClassGenerater
             classNameList.Add(fileName);
         }
         StringBuilder sb = new StringBuilder();
-        sb.AppendLine("public class " + ExcelExporterUtil.ConfigFactoryName);
+        sb.AppendLine("namespace Config.TextConfig");
         sb.AppendLine("{");
-        sb.AppendLine("\tpublic static ConfigBase Get(string configName)");
+        sb.AppendLine("\tpublic class " + ExcelExporterUtil.ConfigFactoryName);
         sb.AppendLine("\t{");
-        sb.AppendLine("\t\tswitch(configName)");
+        sb.AppendLine("\t\tpublic static ConfigBase Get(string configName)");
         sb.AppendLine("\t\t{");
+        sb.AppendLine("\t\t\tswitch(configName)");
+        sb.AppendLine("\t\t\t{");
 
         for (int i = 0; i < classNameList.Count; i++)
         {
-            sb.AppendLine("\t\t\tcase \"" + classNameList[i] + "\":");
-            sb.AppendLine("\t\t\t\treturn new " + ExcelExporterUtil.ClientClassPre + classNameList[i] + "();");
+            sb.AppendLine("\t\t\t\tcase \"" + classNameList[i] + "\":");
+            sb.AppendLine("\t\t\t\t\treturn new " + ExcelExporterUtil.ClientClassPre + classNameList[i] + "();");
         }
-        sb.AppendLine("\t\t\tdefault:");
-        sb.AppendLine("\t\t\t\tUnityEngine.Debug.LogError(configName + \"not found\");");
-        sb.AppendLine("\t\t\t\treturn null;");
+        sb.AppendLine("\t\t\t\tdefault:");
+        sb.AppendLine("\t\t\t\t\tUnityEngine.Debug.LogError(configName + \"not found\");");
+        sb.AppendLine("\t\t\t\t\treturn null;");
 
+        sb.AppendLine("\t\t\t}");
         sb.AppendLine("\t\t}");
         sb.AppendLine("\t}");
         sb.AppendLine("}");

@@ -32,7 +32,10 @@ public class DataExporterWindow : EditorWindow
         ReadStringConfig("_clientDataOutputPath");
         ReadStringConfig("_clientScriptOutputPath");
         if (EditorPrefs.HasKey("_exportType"))
+        {
             _exportType = (ExcelDataExportType)EditorPrefs.GetInt("_exportType");
+            ExcelExporterUtil.exportType = _exportType;
+        }
     }
 
     void ReadStringConfig(string fieldName)
@@ -112,10 +115,11 @@ public class DataExporterWindow : EditorWindow
         bool selectClientDataPath = EditorWindowUtil.DrawSelectPathView("客户端数据输出路径：", _clientDataOutputPath);
 
         var type = (ExcelDataExportType)EditorGUILayout.EnumPopup("文件导出类型", _exportType);
-        if(type != _exportType)
+        if(type != ExcelExporterUtil.exportType)
         {
             _exportType = type;
             ExcelExporterUtil.exportType = type;
+            EditorPrefs.SetInt("_exportType", (int)_exportType);
         }
 
 
@@ -198,6 +202,11 @@ public class DataExporterWindow : EditorWindow
         for (int i = 0; i < _selectFiles.Count; i++)
         {
             GenSingleClientData(_selectFiles[i]);
+        }
+
+        if(ExcelExporterUtil.exportType == ExcelDataExportType.Text)
+        {
+            ExcelTextClassGenerater.GenerateClientClassFactory(ExcelExporterUtil.GetClientDataOutputPath(), ExcelExporterUtil.GetClientClassOutputPath());
         }
         AssetDatabase.Refresh();
     }

@@ -22,9 +22,10 @@ public class ExcelScriptableObjectClassGenerater : IExcelClassGenerater
 
         sb.AppendLine("namespace Config.ScriptableConfig");
         sb.AppendLine("{");
-        sb.AppendLine("\tpublic class " + className + ": ScriptableObject");
+        sb.AppendLine("\t[Serializable]");
+        sb.AppendLine("\tpublic class " + className + ": ConfigBase");
         sb.AppendLine("\t{");
-        for (int i = 0; i < types.Count; i++)
+        for (int i = 1; i < types.Count; i++)
         {
             if (Regex.IsMatch(types[i], @"^[a-zA-Z_0-9><,]*$") && Regex.IsMatch(fields[i], @"^[a-zA-Z_0-9]*$"))
                 sb.AppendLine(string.Format("\t\tpublic {0} {1};", types[i], fields[i]));

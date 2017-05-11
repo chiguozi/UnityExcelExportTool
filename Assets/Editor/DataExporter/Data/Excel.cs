@@ -88,7 +88,7 @@ public class Excel
     public void GenerateClientData()
     {
         var generater = DataFactory.GetFactory(false).Create();
-        generater.GenerateData(ExcelExporterUtil.GetClientDataOutputPath(), ExcelExporterUtil.GetDataFileFullName(fileName), clientData);
+        generater.GenerateData(ExcelExporterUtil.GetClientDataOutputPath(), ExcelExporterUtil.GetDataFileFullName(fileName), clientData, ExcelExporterUtil.GetClientClassFileName(fileName));
     }
 
 
@@ -144,7 +144,7 @@ public class Excel
             string type = "string";
 
             if(clientFieldIndexList.Contains(i) || serverFieldIndexList.Contains(i))
-                if (!SupportTypeUtil.TryGetType(cell.stringValue, out type))
+                if (!SupportTypeUtil.TryGetTypeName(cell.stringValue, out type))
                     Debug.LogError(string.Format("{0}  不支持类型 {1}  替换为string ", fileName, cell.stringValue));
             
             //单次循环处理完 

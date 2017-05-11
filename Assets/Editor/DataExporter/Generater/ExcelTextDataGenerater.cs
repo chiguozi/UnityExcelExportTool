@@ -7,7 +7,7 @@ using System.IO;
 public class ExcelTextDataGenerater : IExcelDataGenerater
 {
     //fileName 带后缀名
-    public void GenerateData(string savePath, string fileName, ExcelGameData data)
+    public void GenerateData(string savePath, string fileName, ExcelGameData data, string className)
     {
         if (!Directory.Exists(savePath))
             Directory.CreateDirectory(savePath);

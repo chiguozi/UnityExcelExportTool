@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -42,8 +43,23 @@ public class SupportTypeUtil
         { "des", "PraseDes" },
     };
 
+    static Dictionary<string, Type> _supprtTypeToTypeNameMap = new Dictionary<string, Type>()
+    {
+        { "string", typeof(string)},
+        { "int", typeof(int)},
+        { "float", typeof(float) },
+        { "list<int>", typeof(List<int>) },
+        { "list<string>",typeof(List<string>)  },
+        { "list<float>", typeof(List<float>)  },
+        { "dictionary<int,int>",  typeof(Dictionary<int, int>)  },
+        { "dictionary<int, string>",typeof(Dictionary<int, string>)},
+        { "des", typeof(string) },
+        { "vector3", typeof(Vector3)},
+        { "vector2", typeof(Vector2)},
+    };
 
-    static public bool TryGetType(string origin, out string formatType)
+
+    static public bool TryGetTypeName(string origin, out string formatType)
     {
         formatType = "string";
         if (origin == null)
@@ -60,6 +76,18 @@ public class SupportTypeUtil
             return true;
         }
         return false;
+    }
+
+
+    static public Type TryGetType(string origin)
+    {
+        Type type = null;
+        origin = origin.ToLower();
+        if (_supprtTypeToTypeNameMap.ContainsKey(origin))
+        {
+            type = _supprtTypeToTypeNameMap[origin];
+        }
+        return type;
     }
 
     static public string GetTypePraseFuncName(string key)
