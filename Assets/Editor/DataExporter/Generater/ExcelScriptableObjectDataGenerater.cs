@@ -24,7 +24,7 @@ public class ExcelScriptableObjectDataGenerater : IExcelDataGenerater
             var field = objContainer.GetType().GetField("dataList", BindingFlags.Public | BindingFlags.Instance);
             IList fieldValue = (IList)field.GetValue(objContainer);
             fieldValue.Add(data.GetObject(i, type));
-            //var addMethod = field.FieldType.GetType().GetMethod("Add", BindingFlags.Public | BindingFlags.InvokeMethod | BindingFlags.Instance);
+            //var addMethod = field.FieldType.GetMethod("Add", BindingFlags.Public | BindingFlags.InvokeMethod | BindingFlags.Instance);
             //addMethod.Invoke(field.GetValue(objContainer), new object[] { data.GetObject(i, type)});
         }
 

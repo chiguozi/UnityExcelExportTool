@@ -44,6 +44,10 @@ public class ExcelRuleUtil
 
 public class ExcelCell
 {
+    public string fieldName;
+    public string fieldTypeName;
+    public Type fieldType;
+
     public object value;
     public string stringValue;
     public int index;
