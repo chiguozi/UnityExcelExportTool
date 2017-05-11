@@ -39,15 +39,18 @@ public class ExcelRuleUtil
             return _colorRuleMap[color];
         return ExcelRule.Error;
     }
-
 }
 
-public class ExcelCell
+
+public class ExcelContentCell
 {
     public string fieldName;
     public string fieldTypeName;
     public Type fieldType;
-
+    public ExcelCell originCell;
+}
+public class ExcelCell
+{
     public object value;
     public string stringValue;
     public int index;
