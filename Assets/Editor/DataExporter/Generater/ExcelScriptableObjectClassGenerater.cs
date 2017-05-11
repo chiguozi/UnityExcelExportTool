@@ -32,6 +32,6 @@ public class ExcelScriptableObjectClassGenerater : IExcelClassGenerater
         sb.AppendLine("\t}");
         sb.AppendLine("}");
 
-        //File.WriteAllText(savePath + fileName, sb.ToString());
+        File.WriteAllText(savePath + fileName, sb.ToString());
     }
 }

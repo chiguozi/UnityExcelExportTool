@@ -91,7 +91,7 @@ public class ExcelTextClassGenerater : IExcelClassGenerater
         sb.AppendLine("\t\t}");
         sb.AppendLine("\t}");
         sb.AppendLine("}");
-        //File.WriteAllText(Path.Combine(savePath, ExcelExporterUtil.ConfigFactoryName) + ExcelExporterUtil.ClientClassExt, sb.ToString());
+        File.WriteAllText(Path.Combine(savePath, ExcelExporterUtil.ConfigFactoryName) + ExcelExporterUtil.ClientClassExt, sb.ToString());
     }
 
 }
