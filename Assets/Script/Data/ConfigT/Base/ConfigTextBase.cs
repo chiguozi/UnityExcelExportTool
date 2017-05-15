@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ConfigBase
+[System.Serializable]
+public class ConfigTextBase  : IConfigBase
 {
     public int ID;
+
 
     protected int PraseInt(string value)
     {

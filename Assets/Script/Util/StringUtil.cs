@@ -5,6 +5,57 @@ using System;
 
 public class StringUtil
 {
+
+    //type 为SupportTypeUtil修正过的字符串
+    public static object GetCellObjectValue(string type, string value)
+    {
+        switch (type)
+        {
+            case "string":
+                return value;
+            case "int":
+                int intOutput;
+                TryPraseInt(value, out intOutput);
+                return intOutput;
+            case "float":
+                float floatOutput;
+                TryPraseFloat(value, out floatOutput);
+                return floatOutput;
+            case "List<int>":
+                List<int> valueList;
+                TryPraseListInt(value, out valueList);
+                return valueList;
+            case "List<string>":
+                List<string> stringValueList;
+                TryPraseListString(value, out stringValueList);
+                return stringValueList;
+            case "Dictionary<int, int>":
+                Dictionary<int, int> intDic;
+                TryPraseDicIntInt(value, out intDic);
+                return intDic;
+            case "Dictionary<int, string>":
+                Dictionary<int, string> stringIntDic;
+                TryPraseDicIntString(value, out stringIntDic);
+                return stringIntDic;
+            case "des":
+                string des;
+                TryPraseDes(value, out des);
+                return des;
+            case "Vector3":
+                Vector3 vec3;
+                TryPraseVector3(value, out vec3);
+                return vec3;
+            case "Vector2":
+                Vector2 vec2;
+                TryPraseVector2(value, out vec2);
+                return vec2;
+                //case "List<float>":
+                //    List<float> floatList;
+                //    TryPraseFloatList
+        }
+        return value;
+    }
+
     public static bool TryPraseInt(string str, out int value)
     {
         value = 0;

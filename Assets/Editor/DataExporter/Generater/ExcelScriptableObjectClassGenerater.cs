@@ -23,7 +23,7 @@ public class ExcelScriptableObjectClassGenerater : IExcelClassGenerater
         sb.AppendLine("namespace Config.ScriptableConfig");
         sb.AppendLine("{");
         sb.AppendLine("\t[Serializable]");
-        sb.AppendLine("\tpublic class " + className + ": ConfigBase");
+        sb.AppendLine("\tpublic class " + className + ": ConfigSoBase");
         sb.AppendLine("\t{");
         for (int i = 1; i < types.Count; i++)
         {

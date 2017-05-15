@@ -42,12 +42,36 @@ public class ExcelRuleUtil
 }
 
 
+//不想再对数据重新赋值，不使用继承的方式
 public class ExcelContentCell
 {
     public string fieldName;
-    public string fieldTypeName;
+    string _fieldTypeName;
+    public string fieldTypeName
+    {
+        get { return _fieldTypeName; }
+        set
+        {
+            SupportTypeUtil.TryGetTypeName(value, out _fieldTypeName);
+            fieldType = SupportTypeUtil.TryGetType(value);
+        }
+    }
     public Type fieldType;
     public ExcelCell originCell;
+
+    public object value
+    {
+        get
+        {
+            return StringUtil.GetCellObjectValue(_fieldTypeName, stringValue);
+        }
+    }
+    public string stringValue { get { return originCell.stringValue; } }
+
+    public ExcelContentCell(ExcelCell cell)
+    {
+        originCell = cell;
+    }
 }
 public class ExcelCell
 {

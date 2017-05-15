@@ -24,7 +24,7 @@ public class ExcelTextClassGenerater : IExcelClassGenerater
         sb.AppendLine();
         sb.AppendLine("namespace Config.TextConfig");
         sb.AppendLine("{");
-        sb.AppendLine("\tpublic class " + className + " : ConfigBase");
+        sb.AppendLine("\tpublic class " + className + " : ConfigTextBase");
         sb.AppendLine("\t{");
 
         //跳过ID 字段
@@ -76,7 +76,7 @@ public class ExcelTextClassGenerater : IExcelClassGenerater
         sb.AppendLine("{");
         sb.AppendLine("\tpublic class " + ExcelExporterUtil.ConfigFactoryName);
         sb.AppendLine("\t{");
-        sb.AppendLine("\t\tpublic static ConfigBase Get(string configName)");
+        sb.AppendLine("\t\tpublic static ConfigTextBase Get(string configName)");
         sb.AppendLine("\t\t{");
         sb.AppendLine("\t\t\tswitch(configName)");
         sb.AppendLine("\t\t\t{");
@@ -86,11 +86,9 @@ public class ExcelTextClassGenerater : IExcelClassGenerater
             sb.AppendLine("\t\t\t\tcase \"" + classNameList[i] + "\":");
             sb.AppendLine("\t\t\t\t\treturn new " + ExcelExporterUtil.ClientClassPre + classNameList[i] + "();");
         }
-        sb.AppendLine("\t\t\t\tdefault:");
-        sb.AppendLine("\t\t\t\t\tUnityEngine.Debug.LogError(configName + \"not found\");");
-        sb.AppendLine("\t\t\t\t\treturn null;");
 
         sb.AppendLine("\t\t\t}");
+        sb.AppendLine("\t\t\treturn null;");
         sb.AppendLine("\t\t}");
         sb.AppendLine("\t}");
         sb.AppendLine("}");

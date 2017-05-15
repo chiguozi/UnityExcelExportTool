@@ -15,7 +15,7 @@ public class SupportTypeUtil
         { "list<string>", "List<string>" },
         { "list<float>", "List<float>" },
         { "dictionary<int,int>", "Dictionary<int, int>" },
-        { "dictionary<int, string>", "Dictionary<int, string>" },
+        { "dictionary<int,string>", "Dictionary<int, string>" },
         //{ "dictionary<string, int>", "Dictionary<string, int>" },
         //{ "dictionary<string, string>", "Dictionary<string, string>" },
         { "des", "des" },
@@ -37,7 +37,7 @@ public class SupportTypeUtil
         { "list<string>", "PraseListString" },
         { "list<float>", "PraseListFloat" },
         { "dictionary<int,int>", "PraseDicIntInt" },
-        { "dictionary<int, string>", "PraseDicIntString" },
+        { "dictionary<int,string>", "PraseDicIntString" },
         //{ "dictionary<string, int>", "PraseDicStringInt" },
         //{ "dictionary<string, string>", "PraseDicStringString" },
         { "des", "PraseDes" },
@@ -52,7 +52,7 @@ public class SupportTypeUtil
         { "list<string>",typeof(List<string>)  },
         { "list<float>", typeof(List<float>)  },
         { "dictionary<int,int>",  typeof(Dictionary<int, int>)  },
-        { "dictionary<int, string>",typeof(Dictionary<int, string>)},
+        { "dictionary<int,string>",typeof(Dictionary<int, string>)},
         { "des", typeof(string) },
         { "vector3", typeof(Vector3)},
         { "vector2", typeof(Vector2)},
@@ -65,6 +65,7 @@ public class SupportTypeUtil
         if (origin == null)
             return false;
         origin = origin.ToLower();
+        origin = origin.Replace(" ", "");
         if(_supportCSTypeSet.ContainsKey(origin))
         {
             formatType = _supportCSTypeSet[origin];
@@ -83,6 +84,7 @@ public class SupportTypeUtil
     {
         Type type = null;
         origin = origin.ToLower();
+        origin = origin.Replace(" ", "");
         if (_supprtTypeToTypeNameMap.ContainsKey(origin))
         {
             type = _supprtTypeToTypeNameMap[origin];
@@ -93,7 +95,8 @@ public class SupportTypeUtil
     static public string GetTypePraseFuncName(string key)
     {
         key = key.ToLower();
-        if(_supportTypeToFuncNameMap.ContainsKey(key))
+        key = key.Replace(" ", "");
+        if (_supportTypeToFuncNameMap.ContainsKey(key))
         {
             return _supportTypeToFuncNameMap[key];
         }

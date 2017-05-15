@@ -49,16 +49,16 @@ public class ExcelExporterUtil
         switch(exportType)
         {
             case ExcelDataExportType.Text:
-                subPath = "ConfigT/";
+                subPath = "/ConfigT/";
                 break;
             case ExcelDataExportType.Json:
-                subPath = "ConfigJ/";
+                subPath = "/ConfigJ/";
                 break;
             case ExcelDataExportType.Bytes:
-                subPath = "ConfigB/";
+                subPath = "/ConfigB/";
                 break;
             case ExcelDataExportType.ScriptObject:
-                subPath = "ConfigS/";
+                subPath = "/ConfigS/";
                 break;
         }
         return ClientScriptOutputPath + subPath;
@@ -70,16 +70,16 @@ public class ExcelExporterUtil
         switch (exportType)
         {
             case ExcelDataExportType.Text:
-                subPath = "DataT/";
+                subPath = "/DataT/";
                 break;
             case ExcelDataExportType.Json:
-                subPath = "DataJ/";
+                subPath = "/DataJ/";
                 break;
             case ExcelDataExportType.Bytes:
-                subPath = "DataB/";
+                subPath = "/DataB/";
                 break;
             case ExcelDataExportType.ScriptObject:
-                subPath = "DataS/";
+                subPath = "/DataS/";
                 break;
         }
         return ClientDataOutputPath + subPath;

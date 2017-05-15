@@ -8,7 +8,7 @@ public class ExcelEditorWindow : EditorWindow
     [MenuItem("Excel/ExcelEditor")]
     public static void Open()
     {
-        ExcelEditorWindow window = GetWindowWithRect<ExcelEditorWindow>(new Rect(0, 0, 600 , 400), false, "ExcelEditor");
+        GetWindowWithRect<ExcelEditorWindow>(new Rect(0, 0, 600 , 400), false, "ExcelEditor");
     }
 
     public static void Open(Excel excel)

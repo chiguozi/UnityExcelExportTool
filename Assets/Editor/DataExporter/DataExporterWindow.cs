@@ -60,7 +60,7 @@ public class DataExporterWindow : EditorWindow
         ExcelExporterUtil.ExcelPath = _excelPath;
         ExcelExporterUtil.AssetPath = _assetPath;
         ExcelExporterUtil.ClientDataOutputPath = _clientDataOutputPath;
-        ExcelExporterUtil.ClientDataOutputPath = _clientScriptOutputPath;
+        ExcelExporterUtil.ClientScriptOutputPath = _clientScriptOutputPath;
     }
     #endregion
     [DidReloadScripts]
@@ -206,7 +206,8 @@ public class DataExporterWindow : EditorWindow
 
         if(ExcelExporterUtil.exportType == ExcelDataExportType.Text)
         {
-            ExcelTextClassGenerater.GenerateClientClassFactory(ExcelExporterUtil.GetClientDataOutputPath(), ExcelExporterUtil.GetClientClassOutputPath());
+            //必须有这个文件
+            ExcelTextClassGenerater.GenerateClientClassFactory(ExcelExporterUtil.GetClientDataOutputPath() , ExcelExporterUtil.GetClientClassOutputPath() + "/Base/");
         }
         AssetDatabase.Refresh();
     }

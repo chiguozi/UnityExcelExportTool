@@ -6,8 +6,8 @@ namespace Config.ScriptableConfig
 {
     public class CfgScriptableObjectContainer : ScriptableObject
     {
-        public List<ConfigBase> dataList;
-        public Dictionary<int, ConfigBase> dataMap = new Dictionary<int, ConfigBase>();
+        public List<ConfigSoBase> dataList = new List<ConfigSoBase>();
+        public Dictionary<int, ConfigSoBase> dataMap = new Dictionary<int, ConfigSoBase>();
         public string typeName;
 
 
@@ -26,9 +26,9 @@ namespace Config.ScriptableConfig
             }
         }
 
-        public T Get<T>(int id) where  T : ConfigBase
+        public T Get<T>(int id) where  T : ConfigSoBase
         {
-            ConfigBase value = null;
+            ConfigSoBase value = null;
             dataMap.TryGetValue(id, out value);
             return (T)value;
         }

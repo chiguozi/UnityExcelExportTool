@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Config.TextConfig
 {
-	public class CfgTest1 : ConfigBase
+	public class CfgTest1 : ConfigTextBase
 	{
 		public string B;
 		public List<int> C;

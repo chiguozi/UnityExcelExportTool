@@ -78,14 +78,19 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Script\Config\Base\ConfigBase.cs" />
-    <Compile Include="Assets\Script\Config\Base\ConfigManager.cs" />
-    <Compile Include="Assets\Script\Data\ConfigS\CfgScriptableObjectContainer.cs" />
+    <Compile Include="Assets\Script\Config\Base\IConfigBase.cs" />
+    <Compile Include="Assets\Script\Config\Base\IConfigManager.cs" />
+    <Compile Include="Assets\Script\Config\Base\SingleTon.cs" />
+    <Compile Include="Assets\Script\Data\ConfigS\Base\CfgScriptableObjectContainer.cs" />
+    <Compile Include="Assets\Script\Data\ConfigS\Base\ConfigSOManager.cs" />
+    <Compile Include="Assets\Script\Data\ConfigS\Base\ConfigSoBase.cs" />
     <Compile Include="Assets\Script\Data\ConfigS\CfgTest.cs" />
     <Compile Include="Assets\Script\Data\ConfigS\CfgTest1.cs" />
+    <Compile Include="Assets\Script\Data\ConfigT\Base\ConfigFactory.cs" />
+    <Compile Include="Assets\Script\Data\ConfigT\Base\ConfigTextBase.cs" />
+    <Compile Include="Assets\Script\Data\ConfigT\Base\ConfigTextManager.cs" />
     <Compile Include="Assets\Script\Data\ConfigT\CfgTest.cs" />
     <Compile Include="Assets\Script\Data\ConfigT\CfgTest1.cs" />
-    <Compile Include="Assets\Script\Data\ConfigT\ConfigFactory.cs" />
     <Compile Include="Assets\Script\Main.cs" />
     <Compile Include="Assets\Script\Util\StringUtil.cs" />
   </ItemGroup>

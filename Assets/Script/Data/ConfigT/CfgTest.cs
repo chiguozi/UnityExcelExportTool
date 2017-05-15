@@ -4,11 +4,11 @@ using UnityEngine;
 
 namespace Config.TextConfig
 {
-	public class CfgTest : ConfigBase
+	public class CfgTest : ConfigTextBase
 	{
 		public string B;
 		public List<int> C;
-		public string E;
+		public int E;
 
 
 		public override void Write(int i, string value)
@@ -25,7 +25,7 @@ namespace Config.TextConfig
 					C = PraseListInt(value);
 					break;
 				case 3:
-					E = PraseString(value);
+					E = PraseInt(value);
 					break;
 				default:
 					UnityEngine.Debug.LogError(GetType().Name + "src i:" + i);

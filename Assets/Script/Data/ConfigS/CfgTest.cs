@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Config.ScriptableConfig
 {
 	[Serializable]
-	public class CfgTest: ConfigBase
+	public class CfgTest: ConfigSoBase
 	{
 		public string B;
 		public List<int> C;

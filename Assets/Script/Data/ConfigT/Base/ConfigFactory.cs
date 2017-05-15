@@ -2,7 +2,7 @@ namespace Config.TextConfig
 {
 	public class ConfigFactory
 	{
-		public static ConfigBase Get(string configName)
+		public static ConfigTextBase Get(string configName)
 		{
 			switch(configName)
 			{
@@ -10,10 +10,8 @@ namespace Config.TextConfig
 					return new CfgTest();
 				case "Test1":
 					return new CfgTest1();
-				default:
-					UnityEngine.Debug.LogError(configName + "not found");
-					return null;
 			}
+			return null;
 		}
 	}
 }
