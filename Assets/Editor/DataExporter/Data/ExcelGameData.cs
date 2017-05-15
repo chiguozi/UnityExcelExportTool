@@ -12,7 +12,7 @@ public class ExcelGameData
     //保留excelcell  导出二进制 或者 scirptobject会用到
     public List<List<ExcelContentCell>> cellList = new List<List<ExcelContentCell>>();
 
-    public Object GetObject(int index, Type type)
+    public Object GetSOObject(int index, Type type)
     {
         var valueList = cellList[index];
         var instance = ScriptableObject.CreateInstance(type);//Activator.CreateInstance(type);
@@ -25,6 +25,20 @@ public class ExcelGameData
         }
         return instance;
     }
+
+    public T GetJsonObject<T>(int index, Type type) where T : ConfigJsonBase
+    {
+        var valueList = cellList[index];
+        var instance = Activator.CreateInstance(type);
+        for (int i = 0; i < valueList.Count; i++)
+        {
+            var field = type.GetField(fieldNameList[i], BindingFlags.Public | BindingFlags.Instance | BindingFlags.GetField);
+
+            field.SetValue(instance, valueList[i].value == null ? null : Convert.ChangeType(valueList[i].value, valueList[i].fieldType));
+        }
+        return (T)instance;
+    }
+
 
     public bool AddFieldName(string field)
     {

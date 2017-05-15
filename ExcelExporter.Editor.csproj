@@ -152,6 +152,8 @@
     <Compile Include="Assets\Editor\DataExporter\ExcelLoader\NPOILoader.cs" />
     <Compile Include="Assets\Editor\DataExporter\ExcelWriter\EppWriter.cs" />
     <Compile Include="Assets\Editor\DataExporter\ExcelWriter\NPOIWriter.cs" />
+    <Compile Include="Assets\Editor\DataExporter\Generater\ExcelJsonClassGenerater.cs" />
+    <Compile Include="Assets\Editor\DataExporter\Generater\ExcelJsonDataGenerater.cs" />
     <Compile Include="Assets\Editor\DataExporter\Generater\ExcelScriptableObjectClassGenerater.cs" />
     <Compile Include="Assets\Editor\DataExporter\Generater\ExcelScriptableObjectDataGenerater.cs" />
     <Compile Include="Assets\Editor\DataExporter\Generater\ExcelTextClassGenerater.cs" />

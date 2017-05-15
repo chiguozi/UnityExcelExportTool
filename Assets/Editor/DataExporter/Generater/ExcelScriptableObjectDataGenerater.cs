@@ -32,7 +32,7 @@ public class ExcelScriptableObjectDataGenerater : IExcelDataGenerater
             //var addMethod = field.FieldType.GetMethod("Add", BindingFlags.Public | BindingFlags.InvokeMethod | BindingFlags.Instance);
             //var tmp = field.GetValue(objContainer);
             //addMethod.Invoke(field.GetValue(objContainer), new object[] { data.GetObject(i, type) });
-            var dataInstance = data.GetObject(i, type) as ConfigSoBase;
+            var dataInstance = data.GetSOObject(i, type) as ConfigSoBase;
             dataInstance.hideFlags = HideFlags.HideInHierarchy;
             objContainer.dataList.Add(dataInstance);
             AssetDatabase.AddObjectToAsset(dataInstance, objContainer);

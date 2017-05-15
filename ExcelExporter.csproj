@@ -81,6 +81,10 @@
     <Compile Include="Assets\Script\Config\Base\IConfigBase.cs" />
     <Compile Include="Assets\Script\Config\Base\IConfigManager.cs" />
     <Compile Include="Assets\Script\Config\Base\SingleTon.cs" />
+    <Compile Include="Assets\Script\Data\ConfigJ\Base\ConfigJsonBase.cs" />
+    <Compile Include="Assets\Script\Data\ConfigJ\Base\ConfigJsonContainer.cs" />
+    <Compile Include="Assets\Script\Data\ConfigJ\CfgTest.cs" />
+    <Compile Include="Assets\Script\Data\ConfigJ\CfgTest1.cs" />
     <Compile Include="Assets\Script\Data\ConfigS\Base\CfgScriptableObjectContainer.cs" />
     <Compile Include="Assets\Script\Data\ConfigS\Base\ConfigSOManager.cs" />
     <Compile Include="Assets\Script\Data\ConfigS\Base\ConfigSoBase.cs" />

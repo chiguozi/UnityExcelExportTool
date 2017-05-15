@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Text.RegularExpressions;
 using UnityEngine;
 
 public enum ExcelDataExportType
@@ -112,6 +115,33 @@ public class ExcelExporterUtil
                 return excelName + ".bytes";
         }
         return excelName + ".bytes";
+    }
+
+    public static string GenerateCommonClassStr(string nameSpace, string className, string configBase, ExcelGameData data, bool needSerializable = true)
+    {
+        List<string> types = data.fieldTypeList;
+        List<string> fields = data.fieldNameList;
+
+        StringBuilder sb = new StringBuilder();
+        sb.AppendLine("using System;");
+        sb.AppendLine("using System.Collections.Generic;");
+        sb.AppendLine("using UnityEngine;");
+        sb.AppendLine();
+
+        sb.AppendLine("namespace " + nameSpace);
+        sb.AppendLine("{");
+        if(needSerializable)
+            sb.AppendLine("\t[Serializable]");
+        sb.AppendLine("\tpublic class " + className + ": " + configBase);
+        sb.AppendLine("\t{");
+        for (int i = 1; i < types.Count; i++)
+        {
+            if (Regex.IsMatch(types[i], @"^[a-zA-Z_0-9><,]*$") && Regex.IsMatch(fields[i], @"^[a-zA-Z_0-9]*$"))
+                sb.AppendLine(string.Format("\t\tpublic {0} {1};", types[i], fields[i]));
+        }
+        sb.AppendLine("\t}");
+        sb.AppendLine("}");
+        return sb.ToString();
     }
 
 }
