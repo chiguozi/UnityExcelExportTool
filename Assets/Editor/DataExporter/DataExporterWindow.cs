@@ -66,15 +66,10 @@ public class DataExporterWindow : EditorWindow
     [DidReloadScripts]
     static void OnDllRebuild()
     {
-        //if (_window == null)
-        //    _window = GetWindowWithRect<DataExporterWindow>(new Rect(0, 0, 400, 600));
-        //_window.RewritePathsToExcelUtil();
     }
 
     private void OnEnable()
     {
-        //XLSPATH = Application.dataPath + "/Test1.xls";
-        //XLSXPATH = Application.dataPath + "/Test.xlsx";
     }
 
     private void OnDestroy()
