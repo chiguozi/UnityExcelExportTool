@@ -9,6 +9,6 @@ namespace Config.ScriptableConfig
 	{
 		public string B;
 		public List<int> C;
-		public int E;
+		public List<int> E;
 	}
 }

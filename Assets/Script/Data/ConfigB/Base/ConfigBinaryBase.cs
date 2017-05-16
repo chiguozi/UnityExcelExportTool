@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ConfigSoBase : ScriptableObject
+[System.Serializable]
+public class ConfigBinaryBase
 {
     public int ID;
 }

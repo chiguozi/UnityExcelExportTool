@@ -41,14 +41,14 @@ public class ConfigTextManager
     }
 
 
-    public virtual void Init()
+    public void Init()
     {
         _map.Clear();
         var datas = Resources.LoadAll("DataT");
         for(int i = 0; i < datas.Length; i++) 
         {
             string configName = datas[i].name;
-            string content = ( datas[i] as TextAsset ).text;
+            string content = ( datas[i] as UnityEngine.TextAsset ).text;
             DecodeConfigFile(configName, content);
         }
     }

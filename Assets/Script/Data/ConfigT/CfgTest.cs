@@ -8,7 +8,7 @@ namespace Config.TextConfig
 	{
 		public string B;
 		public List<int> C;
-		public int E;
+		public List<int> E;
 
 
 		public override void Write(int i, string value)
@@ -25,7 +25,7 @@ namespace Config.TextConfig
 					C = PraseListInt(value);
 					break;
 				case 3:
-					E = PraseInt(value);
+					E = PraseListInt(value);
 					break;
 				default:
 					UnityEngine.Debug.LogError(GetType().Name + "src i:" + i);

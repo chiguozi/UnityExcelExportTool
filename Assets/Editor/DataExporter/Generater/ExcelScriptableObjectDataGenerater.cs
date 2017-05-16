@@ -33,11 +33,11 @@ public class ExcelScriptableObjectDataGenerater : IExcelDataGenerater
             //var tmp = field.GetValue(objContainer);
             //addMethod.Invoke(field.GetValue(objContainer), new object[] { data.GetObject(i, type) });
             var dataInstance = data.GetSOObject(i, type) as ConfigSoBase;
-            dataInstance.hideFlags = HideFlags.HideInHierarchy;
+            dataInstance.hideFlags = HideFlags.HideInInspector;
             objContainer.dataList.Add(dataInstance);
             AssetDatabase.AddObjectToAsset(dataInstance, objContainer);
-            AssetDatabase.SaveAssets();
         }
+        AssetDatabase.SaveAssets();
         //AssetDatabase.SaveAssets();
         //string relativePath = ExcelExporterUtil.GetRelativePath(savePath);
         //AssetDatabase.CreateAsset(objContainer, Path.Combine(relativePath, fileName));

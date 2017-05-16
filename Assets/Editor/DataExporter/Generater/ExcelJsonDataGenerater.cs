@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.IO;
-using System.Reflection;
 using UnityEngine;
+using Newtonsoft.Json;
 
 public class ExcelJsonDataGenerater : IExcelDataGenerater
 {
@@ -23,12 +21,12 @@ public class ExcelJsonDataGenerater : IExcelDataGenerater
 
         for(int i = 0; i < data.cellList.Count; i++)
         {
-            var method = data.GetType().GetMethod("GetJsonObject");
-            method = method.MakeGenericMethod(type);
-            objContainer.dataList.Add((method.Invoke(data, new object[] { i, type } ) as Config.JsonConfig.CfgTest));
+            var cfg = data.GetObject(i, type) as ConfigJsonBase;
+            objContainer.dataMap.Add(cfg.ID, cfg);
         }
 
-        var content = JsonUtility.ToJson(objContainer, true);
+        JsonSerializerSettings settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Objects };
+        var content = JsonConvert.SerializeObject(objContainer, settings);
         File.WriteAllText(Path.Combine(savePath, fileName), content);
     }
 }

@@ -58,6 +58,8 @@ public class ExcelClientClassGeneraterFactory : IClassFactory
                 return new ExcelScriptableObjectClassGenerater();
             case ExcelDataExportType.Json:
                 return new ExcelJsonClassGenerater();
+            case ExcelDataExportType.Bytes:
+                return new ExcelBinaryClassGenerater();
         }
 
         return null;
@@ -89,6 +91,8 @@ public class ExcelClientDataGeneraterFactory : IDataFactory
                 return new ExcelScriptableObjectDataGenerater();
             case ExcelDataExportType.Json:
                 return new ExcelJsonDataGenerater();
+            case ExcelDataExportType.Bytes:
+                return new ExcelBinaryDataGenerater();
         }
         return null;
     }

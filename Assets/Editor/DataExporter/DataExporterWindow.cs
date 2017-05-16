@@ -144,6 +144,11 @@ public class DataExporterWindow : EditorWindow
         }
         if (genData)
         {
+            if(EditorApplication.isCompiling) 
+            {
+                ShowNotification(new GUIContent("正在编译，请等待编译完成"));
+                return;
+            }
             GenerateSelectedData();
         }
 

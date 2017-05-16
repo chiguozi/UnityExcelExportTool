@@ -22,7 +22,7 @@ public class ConfigSOManager
         var datas = Resources.LoadAll<CfgScriptableObjectContainer>("DataS");
         for(int i = 0; i < datas.Length; i++)
         {
-            datas[i].CopyListToDic();
+            //datas[i].CopyListToDic();
             _map.Add(datas[i].typeName, datas[i].dataMap);
             Resources.UnloadAsset(datas[i]);
         }

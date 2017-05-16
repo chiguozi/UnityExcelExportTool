@@ -27,6 +27,12 @@ public class SupportTypeUtil
         { "vector2", "Vector2" },
     };
 
+    static Dictionary<string, string> _supportTypeToJsonAttributeMap = new Dictionary<string, string>()
+    {
+        { "vector3", "[JsonConverter(typeof(Vector3Converter))]" },
+        { "vector2", "[JsonConverter(typeof(Vector2Converter))]" },
+    };
+
     //Text 模式下使用
     static Dictionary<string, string> _supportTypeToFuncNameMap = new Dictionary<string, string>()
     {
@@ -38,6 +44,8 @@ public class SupportTypeUtil
         { "list<float>", "PraseListFloat" },
         { "dictionary<int,int>", "PraseDicIntInt" },
         { "dictionary<int,string>", "PraseDicIntString" },
+        { "vector3", "PraseVector3"},
+        { "vector2", "PraseVector2"},
         //{ "dictionary<string, int>", "PraseDicStringInt" },
         //{ "dictionary<string, string>", "PraseDicStringString" },
         { "des", "PraseDes" },
@@ -58,6 +66,18 @@ public class SupportTypeUtil
         { "vector2", typeof(Vector2)},
     };
 
+
+    public static bool IsUnityType(string type)
+    {
+        type = type.ToLower().Replace(" ", "");
+        return _supportUnityTypeSet.ContainsKey(type);
+    }
+
+    public static string GetUnityTypeJsonAttribute(string type)
+    {
+        type = type.ToLower().Replace(" ", "");
+        return _supportTypeToJsonAttributeMap[type];
+    }
 
     static public bool TryGetTypeName(string origin, out string formatType)
     {

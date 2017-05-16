@@ -26,7 +26,7 @@ public class ExcelGameData
         return instance;
     }
 
-    public T GetJsonObject<T>(int index, Type type) where T : ConfigJsonBase
+    public object GetObject(int index, Type type)
     {
         var valueList = cellList[index];
         var instance = Activator.CreateInstance(type);
@@ -36,7 +36,7 @@ public class ExcelGameData
 
             field.SetValue(instance, valueList[i].value == null ? null : Convert.ChangeType(valueList[i].value, valueList[i].fieldType));
         }
-        return (T)instance;
+        return instance;
     }
 
 

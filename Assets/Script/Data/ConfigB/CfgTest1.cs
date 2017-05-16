@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using Newtonsoft.Json;
 
-namespace Config.JsonConfig
+namespace Config.BinaryConfig
 {
-	public class CfgTest: ConfigJsonBase
+	[Serializable]
+	public class CfgTest1: ConfigBinaryBase
 	{
 		public string B;
 		public List<int> C;
