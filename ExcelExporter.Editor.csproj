@@ -164,7 +164,7 @@
     <Compile Include="Assets\Editor\DataExporter\Generater\ExcelTextClassGenerater.cs" />
     <Compile Include="Assets\Editor\DataExporter\Generater\ExcelTextDataGenerater.cs" />
     <Compile Include="Assets\Editor\DataExporter\Util\EditorWindowUtil.cs" />
-    <Compile Include="Assets\Editor\DataExporter\Util\ExcelExporterDefine.cs" />
+    <Compile Include="Assets\Editor\DataExporter\Util\ExcelExporterUtil.cs" />
     <Compile Include="Assets\Editor\DataExporter\Util\Factorys.cs" />
     <Compile Include="Assets\Editor\DataExporter\Util\SupportTypeUtil.cs" />
     <Compile Include="Assets\Editor\DataExporter\interface\IExcelClassGenerater.cs" />
