@@ -1,9 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEditor;
-using System;
-using System.Reflection;
 using System.IO;
 
 public class ExcelScriptableObjectDataGenerater : IExcelDataGenerater
@@ -11,17 +7,13 @@ public class ExcelScriptableObjectDataGenerater : IExcelDataGenerater
     public void GenerateData(string savePath, string fileName, ExcelGameData data, string className)
     {
         if (!Directory.Exists(savePath))
-            Directory.CreateDirectory(savePath);
-        //需要添加程序集名称
-        var type = Type.GetType("Config.ScriptableConfig." + className + ", Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null");
-        if(type == null)
-        {
-            Debug.LogError("找不到类型" + "Config.ScriptableConfig." + className);
+            Directory.CreateDirectory(savePath); 
+       
+        var type = ExcelExporterUtil.GetDataType("Config.ScriptableConfig.", className);
+        if (type == null)
             return;
-        }
         var objContainer = ScriptableObject.CreateInstance<Config.ScriptableConfig.CfgScriptableObjectContainer>();
         objContainer.typeName = type.Name;
-        Debug.LogError(type.Name);
         string relativePath = ExcelExporterUtil.GetRelativePath(savePath);
         AssetDatabase.CreateAsset(objContainer, Path.Combine(relativePath, fileName));
         for (int i = 0; i < data.cellList.Count; i++)
@@ -38,8 +30,5 @@ public class ExcelScriptableObjectDataGenerater : IExcelDataGenerater
             AssetDatabase.AddObjectToAsset(dataInstance, objContainer);
         }
         AssetDatabase.SaveAssets();
-        //AssetDatabase.SaveAssets();
-        //string relativePath = ExcelExporterUtil.GetRelativePath(savePath);
-        //AssetDatabase.CreateAsset(objContainer, Path.Combine(relativePath, fileName));
     }
 } 

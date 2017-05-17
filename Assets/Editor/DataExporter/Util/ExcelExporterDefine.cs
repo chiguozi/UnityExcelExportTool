@@ -144,4 +144,16 @@ public class ExcelExporterUtil
         return sb.ToString();
     }
 
+    public static Type GetDataType(string nameSpace, string className)
+    {
+        var type = Type.GetType(nameSpace + className + ", Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null");
+        if (type == null)
+        {
+            Debug.LogError("找不到类型" + nameSpace + className);
+            return null;
+        }
+        return type;
+    }
+
+
 }
