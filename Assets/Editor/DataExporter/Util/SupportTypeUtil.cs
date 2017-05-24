@@ -66,7 +66,6 @@ public class SupportTypeUtil
         { "vector2", typeof(Vector2)},
     };
 
-
     public static bool IsUnityType(string type)
     {
         type = type.ToLower().Replace(" ", "");

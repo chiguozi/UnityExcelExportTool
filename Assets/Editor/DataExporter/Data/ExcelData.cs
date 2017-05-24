@@ -66,7 +66,16 @@ public class ExcelContentCell
             return StringUtil.GetCellObjectValue(_fieldTypeName, stringValue);
         }
     }
-    public string stringValue { get { return originCell.stringValue; } }
+    public string stringValue
+    {
+        get
+        {
+            if (fieldType == typeof(string))
+                return originCell.stringValue;
+            else
+                return ExcelExporterUtil.RemoveWhiteSpaceOutTheWordFull(originCell.stringValue);
+        }
+    }
 
     public ExcelContentCell(ExcelCell cell)
     {

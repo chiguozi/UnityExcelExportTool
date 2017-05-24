@@ -155,5 +155,31 @@ public class ExcelExporterUtil
         return type;
     }
 
+    public static string RemoveWhiteSpaceOutTheWordFull(string content)
+    {
+        content = RemoveWhiteSpaceOutTheWord(content, ',');
+        content = RemoveWhiteSpaceOutTheWord(content, '(');
+        content = RemoveWhiteSpaceOutTheWord(content, ')');
+        return content;
+        //string[] subs = content.Split(new char[] { ',' });
+        //for(int i = 0; i < subs.Length; i++)
+        //{
+        //    subs[i] = subs[i].TrimStart(' ', '\t');
+        //    subs[i] = subs[i].TrimEnd(' ', '\t');
+        //}
+        //content = string.Join(",", subs);
+        //return content;
+    }
 
+    static string RemoveWhiteSpaceOutTheWord(string content, char sep)
+    {
+        string[] subs = content.Split(new char[] { sep });
+        for (int i = 0; i < subs.Length; i++)
+        {
+            subs[i] = subs[i].TrimStart(' ', '\t');
+            subs[i] = subs[i].TrimEnd(' ', '\t');
+        }
+        content = string.Join(new string(sep, 1), subs);
+        return content;
+    }
 }
