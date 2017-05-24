@@ -62,6 +62,7 @@ public class ExcelGameData
         var contentCell = new ExcelContentCell(cell);
         contentCell.fieldName = fieldNameList[cellList[row].Count];
         contentCell.fieldTypeName = fieldTypeList[cellList[row].Count];
+        contentCell.FormatCell();
         cellList[row].Add(contentCell);
         //if (row >= cellList.Count)
         //    cellList.Add(new List<ExcelCell>());

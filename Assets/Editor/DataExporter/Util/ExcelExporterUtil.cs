@@ -182,4 +182,17 @@ public class ExcelExporterUtil
         content = string.Join(new string(sep, 1), subs);
         return content;
     }
+
+    //public static string RemoveWordFirstQuotation(string content)
+    //{
+    //    StringBuilder sb = new StringBuilder();
+    //    for(int i = 0; i < content.Length; i++)
+    //    {
+    //        bool needJump = false;
+    //        if(content[i] == '"')
+    //        {
+    //            if(i == 0 || content[i - 1])
+    //        }
+    //    }
+    //}
 }

@@ -47,6 +47,8 @@ public class ExcelContentCell
 {
     public string fieldName;
     string _fieldTypeName;
+    string _stringValue;
+
     public string fieldTypeName
     {
         get { return _fieldTypeName; }
@@ -70,16 +72,28 @@ public class ExcelContentCell
     {
         get
         {
-            if (fieldType == typeof(string))
-                return originCell.stringValue;
-            else
-                return ExcelExporterUtil.RemoveWhiteSpaceOutTheWordFull(originCell.stringValue);
+            return _stringValue;
+            //if (fieldType == typeof(string))
+            //    return originCell.stringValue;
+            //else
+            //    return ExcelExporterUtil.RemoveWhiteSpaceOutTheWordFull(originCell.stringValue);
         }
     }
 
     public ExcelContentCell(ExcelCell cell)
     {
         originCell = cell;
+    }
+
+    bool CheckCell()
+    { return true; }
+
+    public void FormatCell()
+    {
+        string res = originCell.stringValue;
+        if(fieldType == typeof(string))
+            res = ExcelExporterUtil.RemoveWhiteSpaceOutTheWordFull(res);
+        _stringValue = res;
     }
 }
 public class ExcelCell
