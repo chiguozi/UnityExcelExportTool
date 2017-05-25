@@ -7,8 +7,7 @@ using UnityEditor.Callbacks;
 using System.IO;
 
 public class DataExporterWindow : EditorWindow
-{
-
+{ 
     [MenuItem("Excel/ExcelExportWindow")]
     static void Open()
     {

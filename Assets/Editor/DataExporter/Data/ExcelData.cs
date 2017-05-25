@@ -62,8 +62,6 @@ public class ExcelContentCell
                 fieldType = type.type;
                 _type = type;
             }
-            //SupportTypeUtil.TryGetTypeName(value, out _fieldTypeName);
-            //fieldType = SupportTypeUtil.TryGetType(value);
         }
     }
     public Type fieldType;
