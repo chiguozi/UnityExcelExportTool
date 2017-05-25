@@ -6,6 +6,45 @@ using UnityEngine;
 
 public class SupportTypeUtil
 {
+    static Dictionary<string, IType> _supportTypeMap = new Dictionary<string, IType>();
+    static SupportTypeUtil()
+    {
+        IType type = new IntType();
+        _supportTypeMap.Add(type.lowerName, type);
+        type = new FloatType();
+        _supportTypeMap.Add(type.lowerName, type);
+        type = new StringType();
+        _supportTypeMap.Add(type.lowerName, type);
+        type = new ListIntType();
+        _supportTypeMap.Add(type.lowerName, type);
+        type = new ListStringType();
+        _supportTypeMap.Add(type.lowerName, type);
+        type = new ListFloatType();
+        _supportTypeMap.Add(type.lowerName, type);
+        type = new Vector2Type();
+        _supportTypeMap.Add(type.lowerName, type);
+        type = new Vector3Type();
+        _supportTypeMap.Add(type.lowerName, type);
+        type = new DesType();
+        _supportTypeMap.Add(type.lowerName, type);
+        type = new DictionaryIntIntType();
+        _supportTypeMap.Add(type.lowerName, type);
+        type = new DictionaryIntStringType();
+        _supportTypeMap.Add(type.lowerName, type);
+        type = new ListListStringType();
+        _supportTypeMap.Add(type.lowerName, type);
+    }
+
+    public static IType GetIType(string typeName)
+    {
+        string lowerType = typeName.ToLower().Replace(" ", "");
+        if (_supportTypeMap.ContainsKey(lowerType))
+            return _supportTypeMap[lowerType];
+        Debug.LogError("找不到类型" + typeName);
+        return null;
+    }
+
+
     static Dictionary<string, string> _supportCSTypeSet = new Dictionary<string, string>()
     {
         { "string", "string" },
@@ -36,19 +75,19 @@ public class SupportTypeUtil
     //Text 模式下使用
     static Dictionary<string, string> _supportTypeToFuncNameMap = new Dictionary<string, string>()
     {
-        { "string", "PraseString"},
-        { "int", "PraseInt" },
-        { "float", "PraseFloat" },
-        { "list<int>", "PraseListInt" },
-        { "list<string>", "PraseListString" },
-        { "list<float>", "PraseListFloat" },
-        { "dictionary<int,int>", "PraseDicIntInt" },
-        { "dictionary<int,string>", "PraseDicIntString" },
-        { "vector3", "PraseVector3"},
-        { "vector2", "PraseVector2"},
-        //{ "dictionary<string, int>", "PraseDicStringInt" },
-        //{ "dictionary<string, string>", "PraseDicStringString" },
-        { "des", "PraseDes" },
+        { "string", "ParseString"},
+        { "int", "ParseInt" },
+        { "float", "ParseFloat" },
+        { "list<int>", "ParseListInt" },
+        { "list<string>", "ParseListString" },
+        { "list<float>", "ParseListFloat" },
+        { "dictionary<int,int>", "ParseDicIntInt" },
+        { "dictionary<int,string>", "ParseDicIntString" },
+        { "vector3", "ParseVector3"},
+        { "vector2", "ParseVector2"},
+        //{ "dictionary<string, int>", "ParseDicStringInt" },
+        //{ "dictionary<string, string>", "ParseDicStringString" },
+        { "des", "ParseDes" },
     };
 
     static Dictionary<string, Type> _supprtTypeToTypeNameMap = new Dictionary<string, Type>()
@@ -111,7 +150,7 @@ public class SupportTypeUtil
         return type;
     }
 
-    static public string GetTypePraseFuncName(string key)
+    static public string GetTypeParseFuncName(string key)
     {
         key = key.ToLower();
         key = key.Replace(" ", "");
@@ -119,6 +158,6 @@ public class SupportTypeUtil
         {
             return _supportTypeToFuncNameMap[key];
         }
-        return "PraseString";
+        return "ParseString";
     }
 }

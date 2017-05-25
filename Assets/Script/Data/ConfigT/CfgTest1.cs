@@ -16,16 +16,16 @@ namespace Config.TextConfig
 			switch (i)
 			{
 				case 0:
-					ID = PraseInt(value);
+					ID = ParseInt(value);
 					break;
 				case 1:
-					B = PraseString(value);
+					B = ParseString(value);
 					break;
 				case 2:
-					C = PraseListInt(value);
+					C = ParseListInt(value);
 					break;
 				case 3:
-					E = PraseListInt(value);
+					E = ParseListInt(value);
 					break;
 				default:
 					UnityEngine.Debug.LogError(GetType().Name + "src i:" + i);

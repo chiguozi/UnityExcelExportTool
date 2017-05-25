@@ -8,86 +8,96 @@ public class ConfigTextBase  : IConfigBase
     public int ID;
 
 
-    protected int PraseInt(string value)
+    protected int ParseInt(string value)
     {
         int res;
-        if(!StringUtil.TryPraseInt(value, out res))
+        if(!StringUtil.TryParseInt(value, out res))
         {
             Debug.LogError(string.Format("{0} 解析int 出错   value = {1}", this.GetType(), value));
         }
         return res;
     }
-    protected float PraseFloat(string value)
+    protected float ParseFloat(string value)
     {
         float res;
-        if (!StringUtil.TryPraseFloat(value, out res))
+        if (!StringUtil.TryParseFloat(value, out res))
         {
             Debug.LogError(string.Format("{0} 解析float 出错   value = {1}", this.GetType(), value));
         }
         return res;
     }
 
-    protected string PraseDes(string value)
+    protected string ParseDes(string value)
     {
         string des;
-        StringUtil.TryPraseDes(value, out des);
+        StringUtil.TryParseDes(value, out des);
         return des;
     }
 
-    protected List<int> PraseListInt(string value)
+    protected List<int> ParseListInt(string value)
     {
         List<int> res;
-        if(!StringUtil.TryPraseListInt(value, out res))
+        if(!StringUtil.TryParseListInt(value, out res))
         {
             Debug.LogError(string.Format("{0} 解析List<int> 出错   value = {1}", this.GetType(), value));
         }
         return res;
     }
 
-    protected List<string> PraseListString(string value)
+    protected List<float> ParseListFloat(string value)
+    {
+        List<float> res;
+        if (!StringUtil.TryParseListFloat(value, out res))
+        {
+            Debug.LogError(string.Format("{0} 解析List<float> 出错   value = {1}", this.GetType(), value));
+        }
+        return res;
+    }
+
+    protected List<string> ParseListString(string value)
     {
         List<string> res;
-        if (!StringUtil.TryPraseListString(value, out res))
+        if (!StringUtil.TryParseListString(value, out res))
         {
             Debug.LogError(string.Format("{0} 解析List<string> 出错   value = {1}", this.GetType(), value));
         }
         return res;
     }
 
-    protected Dictionary<int, int> PraseDicIntInt(string value)
+    protected Dictionary<int, int> ParseDicIntInt(string value)
     {
         Dictionary<int, int> res;
-        if (!StringUtil.TryPraseDicIntInt(value, out res))
+        if (!StringUtil.TryParseDicIntInt(value, out res))
         {
             Debug.LogError(string.Format("{0} 解析DicIntInt 出错   value = {1}", this.GetType(), value));
         }
         return res;
     }
 
-    protected Dictionary<int, string> PraseDicIntString(string value)
+    protected Dictionary<int, string> ParseDicIntString(string value)
     {
         Dictionary<int, string> res;
-        if (!StringUtil.TryPraseDicIntString(value, out res))
+        if (!StringUtil.TryParseDicIntString(value, out res))
         {
             Debug.LogError(string.Format("{0} 解析DicIntString 出错   value = {1}", this.GetType(), value));
         }
         return res;
     }
 
-    protected Vector3 PraseVector3(string value)
+    protected Vector3 ParseVector3(string value)
     {
         Vector3 res;
-        if(!StringUtil.TryPraseVector3(value, out res))
+        if(!StringUtil.TryParseVector3(value, out res))
         {
             Debug.LogError(string.Format("{0} 解析Vector3 出错   value = {1}", this.GetType(), value));
         }
         return res;
     }
 
-    protected Vector2 PraseVector2(string value)
+    protected Vector2 ParseVector2(string value)
     {
         Vector2 res;
-        if (!StringUtil.TryPraseVector2(value, out res))
+        if (!StringUtil.TryParseVector2(value, out res))
         {
             Debug.LogError(string.Format("{0} 解析Vector2 出错   value = {1}", this.GetType(), value));
         }
@@ -95,9 +105,16 @@ public class ConfigTextBase  : IConfigBase
     }
 
 
-    protected string PraseString(string value)
+    protected string ParseString(string value)
     {
         return value;
+    }
+
+    protected List<List<string>> PraseListListString(string value)
+    {
+        List<List<string>> res;
+        StringUtil.TryParseListListString(value, out res);
+        return res;
     }
 
     public virtual void Write(int i, string value)

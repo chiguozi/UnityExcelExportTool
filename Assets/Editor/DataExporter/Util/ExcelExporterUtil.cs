@@ -136,8 +136,9 @@ public class ExcelExporterUtil
         sb.AppendLine("\t{");
         for (int i = 1; i < types.Count; i++)
         {
-            if (Regex.IsMatch(types[i], @"^[a-zA-Z_0-9><,]*$") && Regex.IsMatch(fields[i], @"^[a-zA-Z_0-9]*$"))
-                sb.AppendLine(string.Format("\t\tpublic {0} {1};", types[i], fields[i]));
+            var type = SupportTypeUtil.GetIType(types[i]);
+            if(type != null)
+                sb.AppendLine(string.Format("\t\tpublic {0} {1};", type.realName, fields[i]));
         }
         sb.AppendLine("\t}");
         sb.AppendLine("}");
@@ -161,14 +162,6 @@ public class ExcelExporterUtil
         content = RemoveWhiteSpaceOutTheWord(content, '(');
         content = RemoveWhiteSpaceOutTheWord(content, ')');
         return content;
-        //string[] subs = content.Split(new char[] { ',' });
-        //for(int i = 0; i < subs.Length; i++)
-        //{
-        //    subs[i] = subs[i].TrimStart(' ', '\t');
-        //    subs[i] = subs[i].TrimEnd(' ', '\t');
-        //}
-        //content = string.Join(",", subs);
-        //return content;
     }
 
     static string RemoveWhiteSpaceOutTheWord(string content, char sep)
@@ -183,16 +176,29 @@ public class ExcelExporterUtil
         return content;
     }
 
-    //public static string RemoveWordFirstQuotation(string content)
-    //{
-    //    StringBuilder sb = new StringBuilder();
-    //    for(int i = 0; i < content.Length; i++)
-    //    {
-    //        bool needJump = false;
-    //        if(content[i] == '"')
-    //        {
-    //            if(i == 0 || content[i - 1])
-    //        }
-    //    }
-    //}
+    //需要先移除空白符
+    //@todo  正则
+    public static string RemoveWordFirstQuotation(string content)
+    {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < content.Length; i++)
+        {
+            bool needJump = false;
+            if (content[i] == '"')
+            {
+                //首字符需要去掉
+                if (i == 0)
+                    needJump = true;
+                else if (content[i - 1] == '(' || content[i - 1] == ',')
+                    needJump = true;
+                if (i == content.Length - 1)
+                    needJump = true;
+                else if (content[i + 1] == ')' || content[i + 1] == ',')
+                    needJump = true;
+            }
+            if (!needJump)
+                sb.Append(content[i]);
+        }
+        return sb.ToString();
+    }
 }

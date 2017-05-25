@@ -30,12 +30,14 @@ public class ExcelJsonClassGenerater : IExcelClassGenerater
         sb.AppendLine("\t{");
         for (int i = 1; i < types.Count; i++)
         {
-            if (Regex.IsMatch(types[i], @"^[a-zA-Z_0-9><,]*$") && Regex.IsMatch(fields[i], @"^[a-zA-Z_0-9]*$"))
+            var type = SupportTypeUtil.GetIType(types[i]);
+            if (type != null)
             {
-                if (SupportTypeUtil.IsUnityType(types[i]))
-                    sb.AppendLine("\t\t" + SupportTypeUtil.GetUnityTypeJsonAttribute(types[i]));
-                sb.AppendLine(string.Format("\t\tpublic {0} {1};", types[i], fields[i]));
+                if(type.isUnityType)
+                    sb.AppendLine("\t\t" + type.jsonAttributeStr);
+                sb.AppendLine(string.Format("\t\tpublic {0} {1};", type.realName, fields[i]));
             }
+               
         }
         sb.AppendLine("\t}");
         sb.AppendLine("}");

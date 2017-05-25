@@ -8,7 +8,8 @@ namespace Config.TextConfig
 	{
 		public string B;
 		public List<int> C;
-		public List<int> E;
+		public List<string> E;
+		public string e;
 
 
 		public override void Write(int i, string value)
@@ -16,16 +17,19 @@ namespace Config.TextConfig
 			switch (i)
 			{
 				case 0:
-					ID = PraseInt(value);
+					ID = ParseInt(value);
 					break;
 				case 1:
-					B = PraseString(value);
+					B = ParseString(value);
 					break;
 				case 2:
-					C = PraseListInt(value);
+					C = ParseListInt(value);
 					break;
 				case 3:
-					E = PraseListInt(value);
+					E = ParseListString(value);
+					break;
+				case 4:
+					e = ParseDes(value);
 					break;
 				default:
 					UnityEngine.Debug.LogError(GetType().Name + "src i:" + i);

@@ -30,8 +30,9 @@ public class ExcelTextClassGenerater : IExcelClassGenerater
         //跳过ID 字段
         for (int i = 1; i < types.Count; i++)
         {
-            if (Regex.IsMatch(types[i], @"^[a-zA-Z_0-9><,]*$") && Regex.IsMatch(fields[i], @"^[a-zA-Z_0-9]*$"))
-                sb.AppendLine(string.Format("\t\tpublic {0} {1};", types[i], fields[i]));
+            var type = SupportTypeUtil.GetIType(types[i]);
+            if(type != null)
+                sb.AppendLine(string.Format("\t\tpublic {0} {1};", type.realName, fields[i]));
         }
 
         sb.AppendLine();
@@ -46,7 +47,7 @@ public class ExcelTextClassGenerater : IExcelClassGenerater
         {
             sb.AppendLine("\t\t\t\tcase " + i + ":");
             //默认第一个字段名称为ID  先临时处理
-            sb.AppendLine("\t\t\t\t\t" + (i == 0 ? "ID" : fields[i]) + " = " + SupportTypeUtil.GetTypePraseFuncName(types[i]) + "(value);");
+            sb.AppendLine("\t\t\t\t\t" + (i == 0 ? "ID" : fields[i]) + " = " + SupportTypeUtil.GetTypeParseFuncName(types[i]) + "(value);");
             sb.AppendLine("\t\t\t\t\tbreak;");
         }
 

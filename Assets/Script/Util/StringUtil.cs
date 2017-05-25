@@ -15,48 +15,49 @@ public class StringUtil
                 return value;
             case "int":
                 int intOutput;
-                TryPraseInt(value, out intOutput);
+                TryParseInt(value, out intOutput);
                 return intOutput;
             case "float":
                 float floatOutput;
-                TryPraseFloat(value, out floatOutput);
+                TryParseFloat(value, out floatOutput);
                 return floatOutput;
             case "List<int>":
                 List<int> valueList;
-                TryPraseListInt(value, out valueList);
+                TryParseListInt(value, out valueList);
                 return valueList;
             case "List<string>":
                 List<string> stringValueList;
-                TryPraseListString(value, out stringValueList);
+                TryParseListString(value, out stringValueList);
                 return stringValueList;
             case "Dictionary<int, int>":
                 Dictionary<int, int> intDic;
-                TryPraseDicIntInt(value, out intDic);
+                TryParseDicIntInt(value, out intDic);
                 return intDic;
             case "Dictionary<int, string>":
                 Dictionary<int, string> stringIntDic;
-                TryPraseDicIntString(value, out stringIntDic);
+                TryParseDicIntString(value, out stringIntDic);
                 return stringIntDic;
             case "des":
                 string des;
-                TryPraseDes(value, out des);
+                TryParseDes(value, out des);
                 return des;
             case "Vector3":
                 Vector3 vec3;
-                TryPraseVector3(value, out vec3);
+                TryParseVector3(value, out vec3);
                 return vec3;
             case "Vector2":
                 Vector2 vec2;
-                TryPraseVector2(value, out vec2);
+                TryParseVector2(value, out vec2);
                 return vec2;
-                //case "List<float>":
-                //    List<float> floatList;
-                //    TryPraseFloatList
+            case "List<float>":
+                List<float> floatList;
+                TryParseListFloat(value, out floatList);
+                return floatList;
         }
         return value;
     }
 
-    public static bool TryPraseInt(string str, out int value)
+    public static bool TryParseInt(string str, out int value)
     {
         value = 0;
         if (string.IsNullOrEmpty(str))
@@ -66,7 +67,7 @@ public class StringUtil
         return false;
     }
 
-    public static bool TryPraseFloat(string str, out float value)
+    public static bool TryParseFloat(string str, out float value)
     {
         value = 0;
         if (string.IsNullOrEmpty(str))
@@ -76,38 +77,53 @@ public class StringUtil
         return false;
     }
 
-    public static bool TryPraseDes(string str, out string value)
+    public static bool TryParseDes(string str, out string value)
     {
         value = str.Replace("|", "\n");
         return true;
     }
 
     //1，2，3，4
-    public static bool TryPraseListInt(string str, out List<int> valueList)
+    public static bool TryParseListInt(string str, out List<int> valueList)
     {
-        valueList = null;
+        valueList = new List<int>();
         if (string.IsNullOrEmpty(str))
             return true;
         string[] values = str.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-        valueList = new List<int>();
         bool success = true;
         for (int i = 0; i < values.Length; i++)
         {
             int value;
-            if (!TryPraseInt(values[i], out value))
+            if (!TryParseInt(values[i], out value))
                 success = false;
             valueList.Add(value);
         }
         return success;
     }
 
-    public static bool TryPraseListString(string str, out List<string> valueList)
+    public static bool TryParseListFloat(string str, out List<float> valueList)
     {
-        valueList = null;
+        valueList = new List<float>();
         if (string.IsNullOrEmpty(str))
             return true;
         string[] values = str.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+        bool success = true;
+        for (int i = 0; i < values.Length; i++)
+        {
+            float value;
+            if (!TryParseFloat(values[i], out value))
+                success = false;
+            valueList.Add(value);
+        }
+        return success;
+    }
+
+    public static bool TryParseListString(string str, out List<string> valueList)
+    {
         valueList = new List<string>();
+        if (string.IsNullOrEmpty(str))
+            return true;
+        string[] values = str.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
         bool success = true;
         for (int i = 0; i < values.Length; i++)
         {
@@ -116,15 +132,15 @@ public class StringUtil
         return success;
     }
     //(1,2),(2,3)
-    public static bool TryPraseDicIntInt(string str, out Dictionary<int, int> valueDic)
+    public static bool TryParseDicIntInt(string str, out Dictionary<int, int> valueDic)
     {
-        valueDic = null;
+        valueDic = new Dictionary<int, int>();
         if (string.IsNullOrEmpty(str))
             return true;
         str = str.TrimStart('(').TrimEnd(')');
 
         string[] values = str.Split(new string[] { "),(" }, StringSplitOptions.RemoveEmptyEntries);
-        valueDic = new Dictionary<int, int>();
+      
         bool success = true;
         for(int i = 0; i < values.Length; i++)
         {
@@ -135,11 +151,11 @@ public class StringUtil
                 continue;
             }
             int key, value;
-            if (!TryPraseInt(nums[0], out key) )
+            if (!TryParseInt(nums[0], out key) )
             {
                 success = false;
             }
-            if(!TryPraseInt(nums[1], out value))
+            if(!TryParseInt(nums[1], out value))
             {
                 success = false;
             }
@@ -148,15 +164,15 @@ public class StringUtil
         return success;
     }
 
-    public static bool TryPraseDicIntString(string str, out Dictionary<int, string> valueDic)
+    public static bool TryParseDicIntString(string str, out Dictionary<int, string> valueDic)
     {
-        valueDic = null;
+        valueDic = new Dictionary<int, string>();
         if (string.IsNullOrEmpty(str))
             return true;
         str = str.TrimStart('(').TrimEnd(')');
 
         string[] values = str.Split(new string[] { "),(" }, StringSplitOptions.RemoveEmptyEntries);
-        valueDic = new Dictionary<int, string>();
+        
         bool success = true;
         for (int i = 0; i < values.Length; i++)
         {
@@ -167,7 +183,7 @@ public class StringUtil
                 continue;
             }
             int key;
-            if (!TryPraseInt(nums[0], out key))
+            if (!TryParseInt(nums[0], out key))
             {
                 success = false;
             }
@@ -176,7 +192,7 @@ public class StringUtil
         return success;
     }
 
-    public static bool TryPraseVector3(string str, out Vector3 vec)
+    public static bool TryParseVector3(string str, out Vector3 vec)
     {
         vec = Vector3.zero;
         if (string.IsNullOrEmpty(str))
@@ -188,17 +204,17 @@ public class StringUtil
             return false;
 
         float x, y, z;
-        if (!TryPraseFloat(values[0], out x))
+        if (!TryParseFloat(values[0], out x))
             success = false;
-        if (!TryPraseFloat(values[1], out y))
+        if (!TryParseFloat(values[1], out y))
             success = false;
-        if (!TryPraseFloat(values[2], out z))
+        if (!TryParseFloat(values[2], out z))
             success = false;
         vec = new Vector3(x, y, z);
         return success;
     }
 
-    public static  bool TryPraseVector2(string str, out Vector2 vec)
+    public static  bool TryParseVector2(string str, out Vector2 vec)
     {
         vec = Vector2.zero;
         if (string.IsNullOrEmpty(str))
@@ -210,12 +226,28 @@ public class StringUtil
             return false;
 
         float x, y;
-        if (!TryPraseFloat(values[0], out x))
+        if (!TryParseFloat(values[0], out x))
             success = false;
-        if (!TryPraseFloat(values[1], out y))
+        if (!TryParseFloat(values[1], out y))
             success = false;
         vec = new Vector3(x, y);
         return success;
+    }
+
+    //(1,2,3,4),(1,2,3,4)
+    public static bool TryParseListListString(string str, out List<List<string>> value)
+    {
+        value = new List<List<string>>();
+        if (string.IsNullOrEmpty(str))
+            return true;
+        str = str.TrimStart('(').TrimEnd(')');
+        string[] listStr = str.Split(new string[] { "),(" }, StringSplitOptions.RemoveEmptyEntries);
+        for (int i = 0; i < listStr.Length; i++)
+        {
+            string[] values = listStr[i].Split(',');
+            value.Add(new List<string>(values));
+        }
+        return true;
     }
 
 }

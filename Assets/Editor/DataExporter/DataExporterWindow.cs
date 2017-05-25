@@ -22,7 +22,7 @@ public class DataExporterWindow : EditorWindow
         WriteStringField("_excelPath");
         WriteStringField("_clientDataOutputPath");
         WriteStringField("_clientScriptOutputPath");
-        EditorPrefs.SetInt("_exportType", (int)_exportType);
+        PlayerPrefs.SetInt("_exportType", (int)_exportType);
     }
 
     void ReadConfig()
@@ -31,19 +31,19 @@ public class DataExporterWindow : EditorWindow
         ReadStringConfig("_excelPath");
         ReadStringConfig("_clientDataOutputPath");
         ReadStringConfig("_clientScriptOutputPath");
-        if (EditorPrefs.HasKey("_exportType"))
+        if (PlayerPrefs.HasKey("_exportType"))
         {
-            _exportType = (ExcelDataExportType)EditorPrefs.GetInt("_exportType");
+            _exportType = (ExcelDataExportType)PlayerPrefs.GetInt("_exportType");
             ExcelExporterUtil.exportType = _exportType;
         }
     }
 
     void ReadStringConfig(string fieldName)
     {
-        if (EditorPrefs.HasKey(fieldName))
+        if (PlayerPrefs.HasKey(fieldName))
             this.GetType()
                 .GetField(fieldName, System.Reflection.BindingFlags.SetField | System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic)
-                .SetValue(this, EditorPrefs.GetString(fieldName));
+                .SetValue(this, PlayerPrefs.GetString(fieldName));
     }
 
     void WriteStringField(string fieldName)
@@ -51,7 +51,7 @@ public class DataExporterWindow : EditorWindow
         var fieldInfo = this.GetType().GetField(fieldName, System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.GetField | System.Reflection.BindingFlags.Instance);
         string value = fieldInfo.GetValue(this).ToString();
         if (!string.IsNullOrEmpty(value))
-            EditorPrefs.SetString(fieldName, value);
+            PlayerPrefs.SetString(fieldName, value);
     }
 
     //静态变量不能使用SerializeField序列化
@@ -114,7 +114,7 @@ public class DataExporterWindow : EditorWindow
         {
             _exportType = type;
             ExcelExporterUtil.exportType = type;
-            EditorPrefs.SetInt("_exportType", (int)_exportType);
+            PlayerPrefs.SetInt("_exportType", (int)_exportType);
         }
 
 
@@ -207,7 +207,7 @@ public class DataExporterWindow : EditorWindow
         if(ExcelExporterUtil.exportType == ExcelDataExportType.Text)
         {
             //必须有这个文件
-            ExcelTextClassGenerater.GenerateClientClassFactory(ExcelExporterUtil.GetClientDataOutputPath() , ExcelExporterUtil.GetClientClassOutputPath() + "/Base/");
+            ExcelTextClassGenerater.GenerateClientClassFactory(ExcelExporterUtil.GetClientDataOutputPath() , ExcelExporterUtil.GetClientClassOutputPath() + "Base/");
         }
         AssetDatabase.Refresh();
     }

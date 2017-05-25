@@ -73,10 +73,6 @@ public class ExcelContentCell
         get
         {
             return _stringValue;
-            //if (fieldType == typeof(string))
-            //    return originCell.stringValue;
-            //else
-            //    return ExcelExporterUtil.RemoveWhiteSpaceOutTheWordFull(originCell.stringValue);
         }
     }
 
@@ -91,8 +87,9 @@ public class ExcelContentCell
     public void FormatCell()
     {
         string res = originCell.stringValue;
-        if(fieldType == typeof(string))
+        if(fieldType != typeof(string))
             res = ExcelExporterUtil.RemoveWhiteSpaceOutTheWordFull(res);
+        res = ExcelExporterUtil.RemoveWordFirstQuotation(res);
         _stringValue = res;
     }
 }
