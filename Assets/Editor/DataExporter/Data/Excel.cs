@@ -114,6 +114,12 @@ public class Excel
             //空行跳过
             if (rowData.IsEmpty)
                 continue;
+            int val;
+            //id字段
+            if(!int.TryParse(rowData.GetCell(0).stringValue, out val))
+            {
+                continue;
+            }
             //结束颜色判断
             if (rowData.GetCell(0).rule == ExcelRule.Finish)
                 break;
@@ -123,12 +129,18 @@ public class Excel
                 //cell允许empty
                 if(clientFieldIndexList.Contains(column))
                 {
-                    clientData.AddCell(lineNum, cell);
+                    if(!clientData.AddCell(lineNum, cell))
+                    {
+                        Debug.LogErrorFormat("{0} 第{1}行 第 {2} 列 解析客户端字段异常 : {3}  type : ", fileName, lineNum, column, cell.stringValue);
+                    }
                 }
 
                 if(serverFieldIndexList.Contains(column))
                 {
-                    serverData.AddCell(lineNum, cell);
+                    if (!serverData.AddCell(lineNum, cell))
+                    {
+                        Debug.LogErrorFormat("{0} 第{1}行 第 {2} 列 解析服务端字段异常 : {3}", fileName, lineNum, column, cell.stringValue);
+                    }
                 }
             }
             lineNum++;

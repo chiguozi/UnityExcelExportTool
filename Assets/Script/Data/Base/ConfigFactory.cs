@@ -6,10 +6,6 @@ namespace Config.TextConfig
 		{
 			switch(configName)
 			{
-				case "Test":
-					return new CfgTest();
-				case "Test1":
-					return new CfgTest1();
 			}
 			return null;
 		}

@@ -45,47 +45,46 @@ public class ExcelExporterUtil
     public static string SeverClassOutputPath = "";
 
 
-    //测试使用，正式使用同一个路径
     public static string GetClientClassOutputPath()
     {
-        string subPath = "";
-        switch(exportType)
-        {
-            case ExcelDataExportType.Text:
-                subPath = "/ConfigT/";
-                break;
-            case ExcelDataExportType.Json:
-                subPath = "/ConfigJ/";
-                break;
-            case ExcelDataExportType.Bytes:
-                subPath = "/ConfigB/";
-                break;
-            case ExcelDataExportType.ScriptObject:
-                subPath = "/ConfigS/";
-                break;
-        }
-        return ClientScriptOutputPath + subPath;
+        //string subPath = "";
+        //switch(exportType)
+        //{
+        //    case ExcelDataExportType.Text:
+        //        subPath = "/ConfigT/";
+        //        break;
+        //    case ExcelDataExportType.Json:
+        //        subPath = "/ConfigJ/";
+        //        break;
+        //    case ExcelDataExportType.Bytes:
+        //        subPath = "/ConfigB/";
+        //        break;
+        //    case ExcelDataExportType.ScriptObject:
+        //        subPath = "/ConfigS/";
+        //        break;
+        //}
+        return ClientScriptOutputPath + "/";
     }
 
     public static string GetClientDataOutputPath()
     {
-        string subPath = "";
-        switch (exportType)
-        {
-            case ExcelDataExportType.Text:
-                subPath = "/DataT/";
-                break;
-            case ExcelDataExportType.Json:
-                subPath = "/DataJ/";
-                break;
-            case ExcelDataExportType.Bytes:
-                subPath = "/DataB/";
-                break;
-            case ExcelDataExportType.ScriptObject:
-                subPath = "/DataS/";
-                break;
-        }
-        return ClientDataOutputPath + subPath;
+        //string subPath = "";
+        //switch (exportType)
+        //{
+        //    case ExcelDataExportType.Text:
+        //        subPath = "/DataT/";
+        //        break;
+        //    case ExcelDataExportType.Json:
+        //        subPath = "/DataJ/";
+        //        break;
+        //    case ExcelDataExportType.Bytes:
+        //        subPath = "/DataB/";
+        //        break;
+        //    case ExcelDataExportType.ScriptObject:
+        //        subPath = "/DataS/";
+        //        break;
+        //}
+        return ClientDataOutputPath + "/";
     }
 
     public static string GetRelativePath(string fullPath)
@@ -117,32 +116,56 @@ public class ExcelExporterUtil
         return excelName + ".bytes";
     }
 
+    public static void AddCommonSpaceToSb(StringBuilder sb)
+    {
+        sb.AppendLine("using System;");
+        sb.AppendLine("using System.Collections.Generic;");
+        sb.AppendLine("using UnityEngine;");
+        sb.AppendLine();
+    }
+
     public static string GenerateCommonClassStr(string nameSpace, string className, string configBase, ExcelGameData data, bool needSerializable = true)
     {
         List<string> types = data.fieldTypeList;
         List<string> fields = data.fieldNameList;
 
         StringBuilder sb = new StringBuilder();
-        sb.AppendLine("using System;");
-        sb.AppendLine("using System.Collections.Generic;");
-        sb.AppendLine("using UnityEngine;");
-        sb.AppendLine();
+        AddCommonSpaceToSb(sb);
+        AddContentToSb(sb, nameSpace, className, configBase, types, fields, needSerializable);
 
+        return sb.ToString();
+    }
+
+    public static void AddContentToSb(StringBuilder sb, string nameSpace, string className, string configBase, List<string> types, List<string> fields, bool needSerializable)
+    {
         sb.AppendLine("namespace " + nameSpace);
         sb.AppendLine("{");
-        if(needSerializable)
+        if (needSerializable)
             sb.AppendLine("\t[Serializable]");
         sb.AppendLine("\tpublic class " + className + ": " + configBase);
         sb.AppendLine("\t{");
+
+        AddFieldsToSb(sb, types, fields);
+
+        sb.AppendLine("\t}");
+        sb.AppendLine("}");
+    }
+
+
+    public static void AddFieldsToSb(StringBuilder sb, List<string> types, List<string> fields)
+    {
         for (int i = 1; i < types.Count; i++)
         {
             var type = SupportTypeUtil.GetIType(types[i]);
-            if(type != null)
+            if (type != null)
+            {
+                if(exportType == ExcelDataExportType.Json && type.isUnityType)
+                {
+                    sb.AppendLine("\t\t" + type.jsonAttributeStr);
+                }
                 sb.AppendLine(string.Format("\t\tpublic {0} {1};", type.realName, fields[i]));
+            }
         }
-        sb.AppendLine("\t}");
-        sb.AppendLine("}");
-        return sb.ToString();
     }
 
     public static Type GetDataType(string nameSpace, string className)

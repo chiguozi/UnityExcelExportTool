@@ -164,6 +164,7 @@ public class StringUtil
         return success;
     }
 
+    //(key, value),(key, value)
     public static bool TryParseDicIntString(string str, out Dictionary<int, string> valueDic)
     {
         valueDic = new Dictionary<int, string>();

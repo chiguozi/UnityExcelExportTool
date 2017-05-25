@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEditor;
 using UnityEngine.Profiling;
 using System;
-using Config.JsonConfig;
 using Newtonsoft.Json;
 
 public class Main : MonoBehaviour

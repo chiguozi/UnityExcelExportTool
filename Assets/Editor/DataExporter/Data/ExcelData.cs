@@ -48,14 +48,22 @@ public class ExcelContentCell
     public string fieldName;
     string _fieldTypeName;
     string _stringValue;
+    IType _type;
 
     public string fieldTypeName
     {
         get { return _fieldTypeName; }
         set
         {
-            SupportTypeUtil.TryGetTypeName(value, out _fieldTypeName);
-            fieldType = SupportTypeUtil.TryGetType(value);
+            var type = SupportTypeUtil.GetIType(value);
+            if (type != null)
+            {
+                _fieldTypeName = type.realName;
+                fieldType = type.type;
+                _type = type;
+            }
+            //SupportTypeUtil.TryGetTypeName(value, out _fieldTypeName);
+            //fieldType = SupportTypeUtil.TryGetType(value);
         }
     }
     public Type fieldType;
@@ -65,7 +73,12 @@ public class ExcelContentCell
     {
         get
         {
-            return StringUtil.GetCellObjectValue(_fieldTypeName, stringValue);
+            if (_type != null)
+            {
+                return _type.GetValue(_stringValue);
+            }
+            else
+                return _stringValue;
         }
     }
     public string stringValue
@@ -91,6 +104,12 @@ public class ExcelContentCell
             res = ExcelExporterUtil.RemoveWhiteSpaceOutTheWordFull(res);
         res = ExcelExporterUtil.RemoveWordFirstQuotation(res);
         _stringValue = res;
+        
+    }
+
+    public bool CheckValid()
+    {
+        return _type == null ? false : _type.CheckValue(_stringValue);
     }
 }
 public class ExcelCell

@@ -81,29 +81,21 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Script\Config\Base\IConfigBase.cs" />
-    <Compile Include="Assets\Script\Config\Base\IConfigManager.cs" />
-    <Compile Include="Assets\Script\Config\Base\SingleTon.cs" />
-    <Compile Include="Assets\Script\Data\ConfigB\Base\ConfigBinaryBase.cs" />
-    <Compile Include="Assets\Script\Data\ConfigB\Base\ConfigBinaryContainer.cs" />
-    <Compile Include="Assets\Script\Data\ConfigB\Base\ConfigBinaryManager.cs" />
-    <Compile Include="Assets\Script\Data\ConfigB\CfgTest.cs" />
-    <Compile Include="Assets\Script\Data\ConfigB\CfgTest1.cs" />
-    <Compile Include="Assets\Script\Data\ConfigJ\Base\ConfigJsonBase.cs" />
-    <Compile Include="Assets\Script\Data\ConfigJ\Base\ConfigJsonContainer.cs" />
-    <Compile Include="Assets\Script\Data\ConfigJ\Base\ConfigJsonManager.cs" />
-    <Compile Include="Assets\Script\Data\ConfigJ\CfgTest.cs" />
-    <Compile Include="Assets\Script\Data\ConfigJ\CfgTest1.cs" />
-    <Compile Include="Assets\Script\Data\ConfigS\Base\CfgScriptableObjectContainer.cs" />
-    <Compile Include="Assets\Script\Data\ConfigS\Base\ConfigSOManager.cs" />
-    <Compile Include="Assets\Script\Data\ConfigS\Base\ConfigSoBase.cs" />
-    <Compile Include="Assets\Script\Data\ConfigS\CfgTest.cs" />
-    <Compile Include="Assets\Script\Data\ConfigS\CfgTest1.cs" />
-    <Compile Include="Assets\Script\Data\ConfigT\Base\ConfigFactory.cs" />
-    <Compile Include="Assets\Script\Data\ConfigT\Base\ConfigTextBase.cs" />
-    <Compile Include="Assets\Script\Data\ConfigT\Base\ConfigTextManager.cs" />
-    <Compile Include="Assets\Script\Data\ConfigT\CfgTest.cs" />
-    <Compile Include="Assets\Script\Data\ConfigT\CfgTest1.cs" />
+    <Compile Include="Assets\Script\Data\Base\CfgScriptableObjectContainer.cs" />
+    <Compile Include="Assets\Script\Data\Base\ConfigBinaryBase.cs" />
+    <Compile Include="Assets\Script\Data\Base\ConfigBinaryContainer.cs" />
+    <Compile Include="Assets\Script\Data\Base\ConfigBinaryManager.cs" />
+    <Compile Include="Assets\Script\Data\Base\ConfigFactory.cs" />
+    <Compile Include="Assets\Script\Data\Base\ConfigJsonBase.cs" />
+    <Compile Include="Assets\Script\Data\Base\ConfigJsonContainer.cs" />
+    <Compile Include="Assets\Script\Data\Base\ConfigJsonManager.cs" />
+    <Compile Include="Assets\Script\Data\Base\ConfigSOManager.cs" />
+    <Compile Include="Assets\Script\Data\Base\ConfigSoBase.cs" />
+    <Compile Include="Assets\Script\Data\Base\ConfigTextBase.cs" />
+    <Compile Include="Assets\Script\Data\Base\ConfigTextManager.cs" />
+    <Compile Include="Assets\Script\Data\Base\IConfigBase.cs" />
+    <Compile Include="Assets\Script\Data\Base\IConfigManager.cs" />
+    <Compile Include="Assets\Script\Data\Base\SingleTon.cs" />
     <Compile Include="Assets\Script\Main.cs" />
     <Compile Include="Assets\Script\Util\JsonConverter\Vector3Converter.cs" />
     <Compile Include="Assets\Script\Util\StringUtil.cs" />

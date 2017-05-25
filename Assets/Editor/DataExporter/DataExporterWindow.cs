@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEditor;
 using System.Text;
 using UnityEditor.Callbacks;
+using System.IO;
 
 public class DataExporterWindow : EditorWindow
 {
@@ -123,6 +124,7 @@ public class DataExporterWindow : EditorWindow
 
         bool genData = GUILayout.Button("生成配置配置文件");
         bool genClass = GUILayout.Button("生成客户端类文件");
+        bool cleanClient = GUILayout.Button("清理客户端类和数据");
 
         if (_selectFiles.Count > 0)
         {
@@ -145,6 +147,11 @@ public class DataExporterWindow : EditorWindow
                 return;
             }
             GenerateSelectedData();
+        }
+
+        if(cleanClient)
+        {
+            CleanClient();
         }
 
         #region RefreshPaths
@@ -178,6 +185,28 @@ public class DataExporterWindow : EditorWindow
         #endregion
     }
 
+    void CleanClient()
+    {
+        var files = Directory.GetFiles(ExcelExporterUtil.GetClientClassOutputPath());
+        for(int i = 0; i < files.Length; i++)
+        {
+            var fileName = Path.GetFileName(files[i]);
+            if(fileName.StartsWith("Cfg") && fileName.EndsWith(".cs"))
+                File.Delete(files[i]);
+        }
+
+        files = Directory.GetFiles(ExcelExporterUtil.GetClientDataOutputPath());
+        for (int i = 0; i < files.Length; i++)
+        {
+            var fileName = Path.GetFileName(files[i]);
+            if(fileName.EndsWith(".bytes"))
+                File.Delete(files[i]);
+        }
+        ExcelTextClassGenerater.GenerateClientClassFactory(ExcelExporterUtil.GetClientDataOutputPath(), ExcelExporterUtil.GetClientClassOutputPath() + "Base/", true);
+
+        AssetDatabase.Refresh();
+    }
+
     void GenerateSelectedScript()
     {
         if(_selectFiles.Count == 0)
@@ -207,7 +236,7 @@ public class DataExporterWindow : EditorWindow
         if(ExcelExporterUtil.exportType == ExcelDataExportType.Text)
         {
             //必须有这个文件
-            ExcelTextClassGenerater.GenerateClientClassFactory(ExcelExporterUtil.GetClientDataOutputPath() , ExcelExporterUtil.GetClientClassOutputPath() + "Base/");
+            ExcelTextClassGenerater.GenerateClientClassFactory(ExcelExporterUtil.GetClientDataOutputPath() , ExcelExporterUtil.GetClientClassOutputPath() + "Base/", false);
         }
         AssetDatabase.Refresh();
     }

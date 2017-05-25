@@ -9,13 +9,7 @@ public class ExcelJsonDataGenerater : IExcelDataGenerater
     {
         if (!Directory.Exists(savePath))
             Directory.CreateDirectory(savePath);
-        ////需要添加程序集名称
-        //var type = Type.GetType("Config.JsonConfig." + className + ", Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null");
-        //if (type == null)
-        //{
-        //    Debug.LogError("找不到类型" + "Config.JsonConfig." + className);
-        //    return;
-        //}
+
         var type = ExcelExporterUtil.GetDataType("Config.JsonConfig.", className);
         if (type == null)
             return;

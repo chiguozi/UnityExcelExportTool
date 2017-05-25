@@ -17,30 +17,25 @@ public class ExcelJsonClassGenerater : IExcelClassGenerater
         List<string> fields = data.fieldNameList;
 
         StringBuilder sb = new StringBuilder();
-        sb.AppendLine("using System;");
-        sb.AppendLine("using System.Collections.Generic;");
-        sb.AppendLine("using UnityEngine;");
+
+        ExcelExporterUtil.AddCommonSpaceToSb(sb);
+
         sb.AppendLine("using Newtonsoft.Json;");
         sb.AppendLine();
 
-        sb.AppendLine("namespace " + "Config.JsonConfig");
-        sb.AppendLine("{");
+        //sb.AppendLine("namespace " + "Config.JsonConfig");
+        //sb.AppendLine("{");
 
-        sb.AppendLine("\tpublic class " + className + ": ConfigJsonBase");
-        sb.AppendLine("\t{");
-        for (int i = 1; i < types.Count; i++)
-        {
-            var type = SupportTypeUtil.GetIType(types[i]);
-            if (type != null)
-            {
-                if(type.isUnityType)
-                    sb.AppendLine("\t\t" + type.jsonAttributeStr);
-                sb.AppendLine(string.Format("\t\tpublic {0} {1};", type.realName, fields[i]));
-            }
-               
-        }
-        sb.AppendLine("\t}");
-        sb.AppendLine("}");
+        //sb.AppendLine("\tpublic class " + className + ": ConfigJsonBase");
+        //sb.AppendLine("\t{");
+
+        //ExcelExporterUtil.AddFieldsToSb(sb, types, fields);
+
+        //sb.AppendLine("\t}");
+        //sb.AppendLine("}");
+        ExcelExporterUtil.AddContentToSb(sb, "Config.JsonConfig", className, "ConfigJsonBase", types, fields, false);
+
+
         File.WriteAllText(savePath + fileName, sb.ToString());
     }
 }
