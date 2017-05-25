@@ -8,3 +8,6 @@
 * 除C#二进制方式外，支持Vector3,Vector2类型
 * 内置简易的Excel编辑器
 
+![](https://github.com/chiguozi/UnityExcelExportTool/blob/master/Image/excel.png)
+![](https://github.com/chiguozi/UnityExcelExportTool/blob/master/Image/window1.png)
+![](https://github.com/chiguozi/UnityExcelExportTool/blob/master/Image/window2.png)
