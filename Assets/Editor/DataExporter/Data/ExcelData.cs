@@ -92,9 +92,6 @@ public class ExcelContentCell
         originCell = cell;
     }
 
-    bool CheckCell()
-    { return true; }
-
     public void FormatCell()
     {
         string res = originCell.stringValue;

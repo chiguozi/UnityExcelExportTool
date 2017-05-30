@@ -2,6 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum GeneraterFactoryType
+{
+    Client, 
+    Server,
+}
+
 public interface IClassFactory
 {
     IExcelClassGenerater Create();
@@ -14,20 +20,30 @@ public interface IDataFactory
 
 public class ClassFactory
 {
-    public static IClassFactory  GetFactory(bool server)
+    public static IClassFactory  GetFactory(GeneraterFactoryType type)
     {
-        if (server)
-            return new ExcelServerClassGeneraterFactory();
+        switch(type)
+        {
+            case GeneraterFactoryType.Client:
+                return new ExcelClientClassGeneraterFactory();
+            case GeneraterFactoryType.Server:
+                return new ExcelServerClassGeneraterFactory();
+        }
         return new ExcelClientClassGeneraterFactory();
     }
 }
 
 public class DataFactory
 {
-    public static IDataFactory GetFactory(bool server)
+    public static IDataFactory GetFactory(GeneraterFactoryType type)
     {
-        if (server)
-            return new ExcelServerDataGeneraterFactory();
+        switch(type)
+        {
+            case GeneraterFactoryType.Client:
+                return new ExcelClientDataGeneraterFactory();
+            case GeneraterFactoryType.Server:
+                return new ExcelServerDataGeneraterFactory();
+        }
         return new ExcelClientDataGeneraterFactory();
     }
 }
