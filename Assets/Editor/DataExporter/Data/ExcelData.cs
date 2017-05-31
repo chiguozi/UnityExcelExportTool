@@ -14,6 +14,14 @@ public enum ExcelRule
     Content  //内容
 }
 
+public enum ExcelRowType
+{
+    Comment,
+    Name,
+    Type,
+    Content,
+}
+
 public class ExcelRuleUtil
 {
 
@@ -61,6 +69,10 @@ public class ExcelContentCell
                 _fieldTypeName = type.realName;
                 fieldType = type.type;
                 _type = type;
+            }
+            else
+            {
+                Debug.LogError("找不到类型" + value);
             }
         }
     }
@@ -125,6 +137,14 @@ public class ExcelCell
         get { return _rgb; }
     }
 
+    public Color ruleColor
+    {
+        get
+        {
+            return new Color(_rgb[0] / 255f, _rgb[1] / 255f, _rgb[2] / 255f);
+        }
+    }
+
 
 
     public bool IsEmpty
@@ -142,6 +162,9 @@ public class ExcelRow
     public List<ExcelCell> cellList = new List<ExcelCell>();
     public Dictionary<int, ExcelCell> cellMap = new Dictionary<int, ExcelCell>();
     public bool isDirty = false;
+    //excelEditor使用
+    public ExcelRowType rowType;
+
     public bool IsEmpty
     {
         get { return cellList == null || cellList.Count == 0; }

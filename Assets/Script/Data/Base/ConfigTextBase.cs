@@ -110,7 +110,7 @@ public class ConfigTextBase  : IConfigBase
         return value;
     }
 
-    protected List<List<string>> PraseListListString(string value)
+    protected List<List<string>> ParseListListString(string value)
     {
         List<List<string>> res;
         StringUtil.TryParseListListString(value, out res);

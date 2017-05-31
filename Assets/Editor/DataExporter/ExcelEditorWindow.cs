@@ -29,6 +29,9 @@ public class ExcelEditorWindow : EditorWindow
     string _excelPath;
     Excel _excel;
     Vector2 _position;
+    ExcelRow _tmpRow;
+
+    Color _defaultBgColor;
 
     void OnGUI()
     {
@@ -57,9 +60,18 @@ public class ExcelEditorWindow : EditorWindow
         for(int i = 0; i < _excel.excelData.count; i++)
         {
             EditorGUILayout.BeginHorizontal();
-            for (int j = 0; j < _excel.excelData.GetRow(i).count; j++)
+            _tmpRow = _excel.excelData.GetRow(i);
+            if (_tmpRow.rowType == ExcelRowType.Content || _tmpRow.rowType == ExcelRowType.Comment)
             {
-                DrawCell(_excel.excelData.GetRow(i).GetCell(j));
+                DrawContentRow(_tmpRow);
+            }
+            else if(_tmpRow.rowType == ExcelRowType.Type)
+            {
+                DrawTypeRow(_tmpRow);
+            }
+            else if(_tmpRow.rowType == ExcelRowType.Name)
+            {
+                DrawNameRow(_tmpRow);
             }
             EditorGUILayout.EndHorizontal(); 
         }
@@ -67,10 +79,56 @@ public class ExcelEditorWindow : EditorWindow
         EditorGUILayout.EndScrollView();
     }
 
+    void DrawTypeRow(ExcelRow row)
+    {
+        for (int j = 0; j < row.count; j++)
+        {
+            DrawTypeCell(row.GetCell(j));
+        }
+    }
+
+    void DrawContentRow(ExcelRow row)
+    {
+        for (int j = 0; j < row.count; j++)
+        {
+            DrawCell(row.GetCell(j));
+        }
+    }
+
+    void DrawNameRow(ExcelRow row)
+    {
+        for (int j = 0; j < row.count; j++)
+        {
+            DrawNameCell(row.GetCell(j));
+        }
+    }
     void DrawCell(ExcelCell cell)
     {
         string s = EditorGUILayout.TextField(cell.stringValue);
         cell.stringValue = s;
+    }
+
+
+
+    void DrawNameCell(ExcelCell cell)
+    {
+        _defaultBgColor = GUI.backgroundColor;
+        GUI.backgroundColor = cell.ruleColor;
+        DrawCell(cell);
+        GUI.backgroundColor = _defaultBgColor;
+    }
+    void DrawTypeCell(ExcelCell cell)
+    {
+        var list = SupportTypeUtil.GetSupportTypeList();
+        var type = SupportTypeUtil.GetIType(cell.stringValue);
+        int index = 0;
+        if (type != null)
+            index = list.IndexOf(type.realName);
+        int selectIndex = EditorGUILayout.Popup(index, list.ToArray());
+        if(selectIndex != index || type == null)
+        {
+            cell.stringValue = list[selectIndex];
+        }
     }
 
     void LoadFile()

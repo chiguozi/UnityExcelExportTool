@@ -111,6 +111,7 @@ public class Excel
         for(int rowNum = row; rowNum < excelData.count; rowNum++)
         {
             var rowData = excelData.GetRow(rowNum);
+            rowData.rowType = ExcelRowType.Content;
             //空行跳过
             if (rowData.IsEmpty)
                 continue;
@@ -150,6 +151,7 @@ public class Excel
     public int ProcessFieldTypes(int row)
     {
         var rowData = excelData.GetRow(row);
+        rowData.rowType = ExcelRowType.Type;
         for(int i = 0; i < rowData.count; i++)
         {
             var cell = rowData.GetCell(i);
@@ -176,6 +178,7 @@ public class Excel
     public int ProcessFieldNames(int row)
     {
         var rowData = excelData.GetRow(row);
+        rowData.rowType = ExcelRowType.Name;
         HashSet<string> fieldNameSet = new HashSet<string>();
         for(int i = 0; i < rowData.count; i++)
         {
@@ -212,7 +215,10 @@ public class Excel
         {
             var row = excelData.GetRow(i);
             if (row.IsEmpty || row.GetCell(0).stringValue.StartsWith("//") || row.GetCell(0).rule == ExcelRule.Ignore)
+            {
+                row.rowType = ExcelRowType.Comment;
                 continue;
+            }
             return i;
         }
         return excelData.count;
