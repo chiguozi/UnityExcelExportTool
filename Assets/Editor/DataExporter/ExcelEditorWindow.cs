@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using System;
 
 public class ExcelEditorWindow : EditorWindow
 {
@@ -63,15 +64,15 @@ public class ExcelEditorWindow : EditorWindow
             _tmpRow = _excel.excelData.GetRow(i);
             if (_tmpRow.rowType == ExcelRowType.Content || _tmpRow.rowType == ExcelRowType.Comment)
             {
-                DrawContentRow(_tmpRow);
+                DrawRow(_tmpRow, DrawCell);
             }
             else if(_tmpRow.rowType == ExcelRowType.Type)
             {
-                DrawTypeRow(_tmpRow);
+                DrawRow(_tmpRow, DrawTypeCell);
             }
             else if(_tmpRow.rowType == ExcelRowType.Name)
             {
-                DrawNameRow(_tmpRow);
+                DrawRow(_tmpRow, DrawNameCell);
             }
             EditorGUILayout.EndHorizontal(); 
         }
@@ -79,45 +80,40 @@ public class ExcelEditorWindow : EditorWindow
         EditorGUILayout.EndScrollView();
     }
 
-    void DrawTypeRow(ExcelRow row)
+
+    void DrawRow(ExcelRow row, Predicate<ExcelCell> drawCellFunc)
     {
-        for (int j = 0; j < row.count; j++)
+        bool dirty;
+        for(int i = 0; i < row.count; i++)
         {
-            DrawTypeCell(row.GetCell(j));
+            dirty = drawCellFunc(row.GetCell(i));
+            if (!dirty && row.isDirty == false)
+                row.isDirty = true;
         }
     }
 
-    void DrawContentRow(ExcelRow row)
-    {
-        for (int j = 0; j < row.count; j++)
-        {
-            DrawCell(row.GetCell(j));
-        }
-    }
-
-    void DrawNameRow(ExcelRow row)
-    {
-        for (int j = 0; j < row.count; j++)
-        {
-            DrawNameCell(row.GetCell(j));
-        }
-    }
-    void DrawCell(ExcelCell cell)
+    bool DrawCell(ExcelCell cell)
     {
         string s = EditorGUILayout.TextField(cell.stringValue);
-        cell.stringValue = s;
+        if(s != cell.stringValue)
+        {
+            cell.stringValue = s;
+            return true;
+        }
+        return false;
     }
 
 
 
-    void DrawNameCell(ExcelCell cell)
+    bool DrawNameCell(ExcelCell cell)
     {
         _defaultBgColor = GUI.backgroundColor;
         GUI.backgroundColor = cell.ruleColor;
-        DrawCell(cell);
+        bool dirty = DrawCell(cell);
         GUI.backgroundColor = _defaultBgColor;
+        return dirty;
     }
-    void DrawTypeCell(ExcelCell cell)
+    bool DrawTypeCell(ExcelCell cell)
     {
         var list = SupportTypeUtil.GetSupportTypeList();
         var type = SupportTypeUtil.GetIType(cell.stringValue);
@@ -128,7 +124,9 @@ public class ExcelEditorWindow : EditorWindow
         if(selectIndex != index || type == null)
         {
             cell.stringValue = list[selectIndex];
+            return true;
         }
+        return false;
     }
 
     void LoadFile()
@@ -150,8 +148,9 @@ public class ExcelEditorWindow : EditorWindow
     {
         if (_excel == null || string.IsNullOrEmpty(_excelPath))
             return;
-        _excel.excelData.SetAllDirty();
+        //_excel.excelData.SetAllDirty();
         _excel.Write();
+        Debug.LogError("保存成功");
     }
 
 
