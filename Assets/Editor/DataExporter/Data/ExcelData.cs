@@ -107,6 +107,12 @@ public class ExcelContentCell
     public void FormatCell()
     {
         string res = originCell.stringValue;
+		//文本可能为空
+		if(string.IsNullOrEmpty(res))
+        {
+            _stringValue = string.Empty;
+            return;
+        }
         if(fieldType != typeof(string))
             res = ExcelExporterUtil.RemoveWhiteSpaceOutTheWordFull(res);
         res = ExcelExporterUtil.RemoveWordFirstQuotation(res);
