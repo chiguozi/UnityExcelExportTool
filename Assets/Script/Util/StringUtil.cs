@@ -2,9 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using System.Text;
 
 public class StringUtil
 {
+    const char VectorStart = '(';
+    const char VectorEnd = ')';
+    const char CollectionsStart = '{';
+    const char CollectionsEnd = '}';
 
     //type 为SupportTypeUtil修正过的字符串
     public static object GetCellObjectValue(string type, string value)
@@ -57,6 +62,61 @@ public class StringUtil
         return value;
     }
 
+    static string RemoveCollectionsChars(string str)
+    {
+        //暂时不关心开头和结尾大括号的个数
+        str = str.TrimStart(CollectionsStart);
+        str = str.TrimEnd(CollectionsEnd);
+        return str;
+    }        
+
+    static string RemoveVectorChars(string str)
+    {
+        str = str.TrimStart(VectorStart);
+        str = str.TrimEnd(VectorEnd);
+        return str;
+    }
+
+    static List<string> SplitString(string str)
+    {
+        List<string> list = new List<string>();
+        Stack<char> stack = new Stack<char>();
+        StringBuilder sb = new StringBuilder();
+        for(int i = 0; i < str.Length; i++)
+        {
+            if(str[i] == VectorStart)
+            {
+                stack.Push(str[i]);
+                sb.Append(str[i]);
+            }
+            else if (str[i] == VectorEnd)
+            {
+                stack.Pop();
+                sb.Append(str[i]);
+            }
+            else if(stack.Count == 0 && str[i] == ',' )
+            {
+                list.Add(sb.ToString());
+                ClearStringBuilder(sb);
+            }
+            else
+            {
+                sb.Append(str[i]);
+            }
+        }
+        if(sb.Length > 0)
+        {
+            list.Add(sb.ToString());
+        }
+        return list;
+    }
+
+    static void ClearStringBuilder(StringBuilder sb)
+    {
+        sb.Length = 0;
+        sb.Capacity = 0;
+    }
+
     public static bool TryParseInt(string str, out int value)
     {
         value = 0;
@@ -83,15 +143,17 @@ public class StringUtil
         return true;
     }
 
-    //1，2，3，4
+    //{1，2，3，4}
     public static bool TryParseListInt(string str, out List<int> valueList)
     {
         valueList = new List<int>();
         if (string.IsNullOrEmpty(str))
             return true;
-        string[] values = str.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+        str = RemoveCollectionsChars(str);
+        List<string> values = SplitString(str);
+        //string[] values = str.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
         bool success = true;
-        for (int i = 0; i < values.Length; i++)
+        for (int i = 0; i < values.Count; i++)
         {
             int value;
             if (!TryParseInt(values[i], out value))
@@ -106,9 +168,11 @@ public class StringUtil
         valueList = new List<float>();
         if (string.IsNullOrEmpty(str))
             return true;
-        string[] values = str.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+        str = RemoveCollectionsChars(str);
+        //string[] values = str.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+        List<string> values = SplitString(str);
         bool success = true;
-        for (int i = 0; i < values.Length; i++)
+        for (int i = 0; i < values.Count; i++)
         {
             float value;
             if (!TryParseFloat(values[i], out value))
@@ -123,29 +187,31 @@ public class StringUtil
         valueList = new List<string>();
         if (string.IsNullOrEmpty(str))
             return true;
-        string[] values = str.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+        str = RemoveCollectionsChars(str);
+        //string[] values = str.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+        List<string> values = SplitString(str);
         bool success = true;
-        for (int i = 0; i < values.Length; i++)
+        for (int i = 0; i < values.Count; i++)
         {
             valueList.Add(values[i]);
         }
         return success;
     }
-    //(1,2),(2,3)
+    //{1,2}, {2,3}
     public static bool TryParseDicIntInt(string str, out Dictionary<int, int> valueDic)
     {
         valueDic = new Dictionary<int, int>();
         if (string.IsNullOrEmpty(str))
             return true;
-        str = str.TrimStart('(').TrimEnd(')');
+        str = RemoveCollectionsChars(str);
 
-        string[] values = str.Split(new string[] { "),(" }, StringSplitOptions.RemoveEmptyEntries);
+        string[] values = str.Split(new string[] { "},{" }, StringSplitOptions.RemoveEmptyEntries);
       
         bool success = true;
         for(int i = 0; i < values.Length; i++)
         {
-            string[] nums = values[i].Split(',');
-            if (nums.Length != 2)
+            List<string> nums = SplitString(values[i]);
+            if (nums.Count != 2)
             {
                 success = false;
                 continue;
@@ -170,15 +236,15 @@ public class StringUtil
         valueDic = new Dictionary<int, string>();
         if (string.IsNullOrEmpty(str))
             return true;
-        str = str.TrimStart('(').TrimEnd(')');
+        str = RemoveCollectionsChars(str);
 
-        string[] values = str.Split(new string[] { "),(" }, StringSplitOptions.RemoveEmptyEntries);
+        string[] values = str.Split(new string[] { "},{" }, StringSplitOptions.RemoveEmptyEntries);
         
         bool success = true;
         for (int i = 0; i < values.Length; i++)
         {
-            string[] nums = values[i].Split(',');
-            if (nums.Length != 2)
+            List<string> nums = SplitString(values[i]);
+            if (nums.Count != 2)
             {
                 success = false;
                 continue;
@@ -198,7 +264,7 @@ public class StringUtil
         vec = Vector3.zero;
         if (string.IsNullOrEmpty(str))
             return true;
-        str = str.TrimStart('(').TrimEnd(')');
+        str = RemoveVectorChars(str);
         string[] values = str.Split(',');
         bool success = true;
         if (values.Length != 3)
@@ -220,7 +286,7 @@ public class StringUtil
         vec = Vector2.zero;
         if (string.IsNullOrEmpty(str))
             return true;
-        str = str.TrimStart('(').TrimEnd(')');
+        str = RemoveVectorChars(str);
         string[] values = str.Split(',');
         bool success = true;
         if (values.Length != 2)
@@ -241,12 +307,12 @@ public class StringUtil
         value = new List<List<string>>();
         if (string.IsNullOrEmpty(str))
             return true;
-        str = str.TrimStart('(').TrimEnd(')');
-        string[] listStr = str.Split(new string[] { "),(" }, StringSplitOptions.RemoveEmptyEntries);
+        str = RemoveCollectionsChars(str);
+        string[] listStr = str.Split(new string[] { "},{" }, StringSplitOptions.RemoveEmptyEntries);
         for (int i = 0; i < listStr.Length; i++)
         {
-            string[] values = listStr[i].Split(',');
-            value.Add(new List<string>(values));
+            List<string> values = SplitString(listStr[i]);
+            value.Add(values);
         }
         return true;
     }

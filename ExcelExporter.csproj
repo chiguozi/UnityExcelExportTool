@@ -99,6 +99,7 @@
     <Compile Include="Assets\Script\Data\CfgEffect.cs" />
     <Compile Include="Assets\Script\Data\CfgSkill.cs" />
     <Compile Include="Assets\Script\Data\CfgSubSkill.cs" />
+    <Compile Include="Assets\Script\Data\CfgTest.cs" />
     <Compile Include="Assets\Script\Main.cs" />
     <Compile Include="Assets\Script\Util\JsonConverter\Vector3Converter.cs" />
     <Compile Include="Assets\Script\Util\StringUtil.cs" />
