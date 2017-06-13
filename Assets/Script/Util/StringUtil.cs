@@ -11,57 +11,6 @@ public class StringUtil
     const char CollectionsStart = '{';
     const char CollectionsEnd = '}';
 
-    //type 为SupportTypeUtil修正过的字符串
-    public static object GetCellObjectValue(string type, string value)
-    {
-        switch (type)
-        {
-            case "string":
-                return value;
-            case "int":
-                int intOutput;
-                TryParseInt(value, out intOutput);
-                return intOutput;
-            case "float":
-                float floatOutput;
-                TryParseFloat(value, out floatOutput);
-                return floatOutput;
-            case "List<int>":
-                List<int> valueList;
-                TryParseListInt(value, out valueList);
-                return valueList;
-            case "List<string>":
-                List<string> stringValueList;
-                TryParseListString(value, out stringValueList);
-                return stringValueList;
-            case "Dictionary<int, int>":
-                Dictionary<int, int> intDic;
-                TryParseDicIntInt(value, out intDic);
-                return intDic;
-            case "Dictionary<int, string>":
-                Dictionary<int, string> stringIntDic;
-                TryParseDicIntString(value, out stringIntDic);
-                return stringIntDic;
-            case "des":
-                string des;
-                TryParseDes(value, out des);
-                return des;
-            case "Vector3":
-                Vector3 vec3;
-                TryParseVector3(value, out vec3);
-                return vec3;
-            case "Vector2":
-                Vector2 vec2;
-                TryParseVector2(value, out vec2);
-                return vec2;
-            case "List<float>":
-                List<float> floatList;
-                TryParseListFloat(value, out floatList);
-                return floatList;
-        }
-        return value;
-    }
-
     static string RemoveCollectionsChars(string str)
     {
         //暂时不关心开头和结尾大括号的个数
