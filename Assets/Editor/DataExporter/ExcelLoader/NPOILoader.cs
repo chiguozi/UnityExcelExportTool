@@ -24,18 +24,30 @@ public class NPOILoader : IExcelLoader
                 return null;
             }
             workBook = WorkbookFactory.Create(fs);
-            sheet = workBook.GetSheetAt(0);
         }
+        sheet = workBook.GetSheetAt(0);
         ExcelData excel = new ExcelData();
         string fileName = Path.GetFileNameWithoutExtension(_fullPath);
         excel.fileName = fileName;
-        excel.filePath = _fullPath;
         excel.excelRows = new List<ExcelRow>();
         for (int i = sheet.FirstRowNum; i <= sheet.LastRowNum; i++)
         {
             excel.excelRows.Add(GetExcelRow(sheet.GetRow(i), i));
         }
         workBook.Close();
+        return excel;
+    }
+
+    ExcelData LoadExcelFromSheet(ISheet sheet)
+    {
+        ExcelData excel = new ExcelData();
+        string fileName = Path.GetFileNameWithoutExtension(_fullPath);
+        excel.fileName = fileName;
+        excel.excelRows = new List<ExcelRow>();
+        for (int i = sheet.FirstRowNum; i <= sheet.LastRowNum; i++)
+        {
+            excel.excelRows.Add(GetExcelRow(sheet.GetRow(i), i));
+        }
         return excel;
     }
 

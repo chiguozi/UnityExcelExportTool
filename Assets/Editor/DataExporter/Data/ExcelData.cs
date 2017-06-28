@@ -210,7 +210,6 @@ public class ExcelRow
 public class ExcelData 
 {
     public string fileName;
-    public string filePath;
     public List<ExcelRow> excelRows;
 
     public int count { get { return excelRows == null? 0 : excelRows.Count; } }
