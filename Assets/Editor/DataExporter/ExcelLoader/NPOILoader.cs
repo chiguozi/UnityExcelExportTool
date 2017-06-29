@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using System.Text.RegularExpressions;
 using NPOI.SS.UserModel;
 
 public class NPOILoader : IExcelLoader
@@ -12,10 +13,77 @@ public class NPOILoader : IExcelLoader
         _fullPath = fullPath;
     }
 
+
+
     public ExcelData Load()
     {
-        IWorkbook workBook;
+        IWorkbook workBook = LoadWorkBookInternal();
         ISheet sheet;
+        sheet = workBook.GetSheetAt(0);
+        string fileName = Path.GetFileNameWithoutExtension(_fullPath);
+        var excel = LoadExcelDataFromSheet(sheet, fileName);
+        workBook.Close();
+        return excel;
+    }
+
+    public List<ExcelData> LoadBySheets()
+    {
+        List<ExcelData> excelList = new List<ExcelData>();
+        IWorkbook workBook = LoadWorkBookInternal();
+        int sheetCount = workBook.NumberOfSheets;
+        if (sheetCount == 0)
+            return excelList;
+
+        ISheet sheet;
+        for (int i = 0; i < sheetCount; i++)
+        {
+            sheet = workBook.GetSheetAt(i);
+            string fileName;
+            if(sheet != null && TryGetFileNameFromSheetName(sheet.SheetName, out fileName))
+                excelList.Add(LoadExcelDataFromSheet(workBook.GetSheetAt(i), ""));
+        }
+        //兼容之前
+        if(excelList.Count == 0)
+        {
+            string fileName = Path.GetFileNameWithoutExtension(_fullPath);
+            LoadExcelDataFromSheet(workBook.GetSheetAt(0), fileName);
+        }
+        workBook.Close();
+        return excelList;
+    }
+
+    //字母数字 下划线  开头只能为字母
+    //fileName.OP.XXXX
+    bool TryGetFileNameFromSheetName(string sheetName, out string fileName)
+    {
+        fileName = "";
+        var subs = sheetName.Split('.');
+        if (subs.Length <= 1)
+            return false;
+        if (!subs[1].Equals("OP"))
+            return false;
+        if (!Regex.IsMatch(subs[0], @"^[a-zA-Z]\w*$"))
+            return false;
+        fileName = subs[0];
+        return true;
+    }
+
+    ExcelData LoadExcelDataFromSheet(ISheet sheet, string fileName)
+    {
+        ExcelData excel = new ExcelData();
+        //string fileName = Path.GetFileNameWithoutExtension(_fullPath);
+        excel.fileName = fileName;
+        excel.excelRows = new List<ExcelRow>();
+        for (int i = sheet.FirstRowNum; i <= sheet.LastRowNum; i++)
+        {
+            excel.excelRows.Add(GetExcelRow(sheet.GetRow(i), i));
+        }
+        return excel;
+    }
+
+    IWorkbook LoadWorkBookInternal()
+    {
+        IWorkbook workBook;
         using (FileStream fs = File.Open(_fullPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
         {
             if (fs == null)
@@ -25,31 +93,9 @@ public class NPOILoader : IExcelLoader
             }
             workBook = WorkbookFactory.Create(fs);
         }
-        sheet = workBook.GetSheetAt(0);
-        ExcelData excel = new ExcelData();
-        string fileName = Path.GetFileNameWithoutExtension(_fullPath);
-        excel.fileName = fileName;
-        excel.excelRows = new List<ExcelRow>();
-        for (int i = sheet.FirstRowNum; i <= sheet.LastRowNum; i++)
-        {
-            excel.excelRows.Add(GetExcelRow(sheet.GetRow(i), i));
-        }
-        workBook.Close();
-        return excel;
+        return workBook;
     }
 
-    ExcelData LoadExcelFromSheet(ISheet sheet)
-    {
-        ExcelData excel = new ExcelData();
-        string fileName = Path.GetFileNameWithoutExtension(_fullPath);
-        excel.fileName = fileName;
-        excel.excelRows = new List<ExcelRow>();
-        for (int i = sheet.FirstRowNum; i <= sheet.LastRowNum; i++)
-        {
-            excel.excelRows.Add(GetExcelRow(sheet.GetRow(i), i));
-        }
-        return excel;
-    }
 
     //需要记录行数
     ExcelRow GetExcelRow(IRow row, int rowNum)

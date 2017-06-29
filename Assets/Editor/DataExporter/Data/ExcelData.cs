@@ -22,6 +22,12 @@ public enum ExcelRowType
     Content,
 }
 
+public enum GameDataType
+{
+    Client,
+    Server,
+}
+
 public class ExcelRuleUtil
 {
 
@@ -40,7 +46,7 @@ public class ExcelRuleUtil
         return r << 16 | g << 8 | b;
     }
 
-    public static ExcelRule GetExcelRole(byte r, byte g, byte b)
+    public static ExcelRule GetExcelRule(byte r, byte g, byte b)
     {
         int color = Rgb2Int(r, g, b);
         if (_colorRuleMap.ContainsKey(color))
@@ -138,7 +144,7 @@ public class ExcelCell
         set
         {
             _rgb = value;
-            rule = ExcelRuleUtil.GetExcelRole(_rgb[0], _rgb[1], _rgb[2]);
+            rule = ExcelRuleUtil.GetExcelRule(_rgb[0], _rgb[1], _rgb[2]);
         }
         get { return _rgb; }
     }
