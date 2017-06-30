@@ -2,36 +2,36 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-//excel内的全部数据  不做过滤
-public enum ExcelRule
-{
-    Error = 0,
-    Common,  //客户端服务器通用
-    Client,       //客户端使用
-    Server,      //服务器使用
-    Finish,      //结束标识(行)
-    Ignore,     //忽略（行 列）
-    Content  //内容
-}
+    //excel内的全部数据  不做过滤
+    public enum ExcelRule
+    {
+        Error = 0,
+        Common,  //客户端服务器通用
+        Client,       //客户端使用
+        Server,      //服务器使用
+        Finish,      //结束标识(行)
+        Ignore,     //忽略（行 列）
+        Content  //内容
+    }
 
-public enum ExcelRowType
-{
-    Comment,
-    Name,
-    Type,
-    Content,
-}
+    public enum ExcelRowType
+    {
+        Comment,
+        Name,
+        Type,
+        Content,
+    }
 
-public enum GameDataType
-{
-    Client,
-    Server,
-}
+    public enum GameDataType
+    {
+        Client,
+        Server,
+    }
 
-public class ExcelRuleUtil
-{
+    public class ExcelRuleUtil
+    {
 
-    static Dictionary<int, ExcelRule> _colorRuleMap = new Dictionary<int, ExcelRule>()
+        static Dictionary<int, ExcelRule> _colorRuleMap = new Dictionary<int, ExcelRule>()
     {
         { Rgb2Int(0,128,0), ExcelRule.Common},
         { Rgb2Int(255,204,0), ExcelRule.Server},
@@ -41,215 +41,215 @@ public class ExcelRuleUtil
         { Rgb2Int(0,0,0), ExcelRule.Content},
     };
 
-    static int Rgb2Int(byte r, byte g, byte b)
-    {
-        return r << 16 | g << 8 | b;
-    }
-
-    public static ExcelRule GetExcelRule(byte r, byte g, byte b)
-    {
-        int color = Rgb2Int(r, g, b);
-        if (_colorRuleMap.ContainsKey(color))
-            return _colorRuleMap[color];
-        return ExcelRule.Error;
-    }
-}
-
-
-//不想再对数据重新赋值，不使用继承的方式
-public class ExcelContentCell
-{
-    public string fieldName;
-    string _fieldTypeName;
-    string _stringValue;
-    IType _type;
-
-    public string fieldTypeName
-    {
-        get { return _fieldTypeName; }
-        set
+        static int Rgb2Int(byte r, byte g, byte b)
         {
-            var type = SupportTypeUtil.GetIType(value);
-            if (type != null)
-            {
-                _fieldTypeName = type.realName;
-                fieldType = type.type;
-                _type = type;
-            }
-            else
-            {
-                Debug.LogError("找不到类型" + value);
-            }
+            return r << 16 | g << 8 | b;
+        }
+
+        public static ExcelRule GetExcelRule(byte r, byte g, byte b)
+        {
+            int color = Rgb2Int(r, g, b);
+            if (_colorRuleMap.ContainsKey(color))
+                return _colorRuleMap[color];
+            return ExcelRule.Error;
         }
     }
-    public Type fieldType;
-    public ExcelCell originCell;
 
-    public object value
+
+    //不想再对数据重新赋值，不使用继承的方式
+    public class ExcelContentCell
     {
-        get
+        public string fieldName;
+        string _fieldTypeName;
+        string _stringValue;
+        IType _type;
+
+        public string fieldTypeName
         {
-            if (_type != null)
+            get { return _fieldTypeName; }
+            set
             {
-                return _type.GetValue(_stringValue);
+                var type = SupportTypeUtil.GetIType(value);
+                if (type != null)
+                {
+                    _fieldTypeName = type.realName;
+                    fieldType = type.type;
+                    _type = type;
+                }
+                else
+                {
+                    Debug.LogError("找不到类型" + value);
+                }
             }
-            else
+        }
+        public Type fieldType;
+        public ExcelCell originCell;
+
+        public object value
+        {
+            get
+            {
+                if (_type != null)
+                {
+                    return _type.GetValue(_stringValue);
+                }
+                else
+                    return _stringValue;
+            }
+        }
+        public string stringValue
+        {
+            get
+            {
                 return _stringValue;
+            }
         }
-    }
-    public string stringValue
-    {
-        get
+
+        public ExcelContentCell(ExcelCell cell)
         {
-            return _stringValue;
+            originCell = cell;
         }
-    }
 
-    public ExcelContentCell(ExcelCell cell)
-    {
-        originCell = cell;
-    }
-
-    public void FormatCell()
-    {
-        string res = originCell.stringValue;
-		//文本可能为空
-		if(string.IsNullOrEmpty(res))
+        public void FormatCell()
         {
-            _stringValue = string.Empty;
-            return;
+            string res = originCell.stringValue;
+            //文本可能为空
+            if (string.IsNullOrEmpty(res))
+            {
+                _stringValue = string.Empty;
+                return;
+            }
+            if (fieldType != typeof(string))
+                res = ExcelExporterUtil.RemoveWhiteSpaceOutTheWordFull(res);
+            res = ExcelExporterUtil.RemoveWordFirstQuotation(res);
+            _stringValue = res;
+
         }
-        if(fieldType != typeof(string))
-            res = ExcelExporterUtil.RemoveWhiteSpaceOutTheWordFull(res);
-        res = ExcelExporterUtil.RemoveWordFirstQuotation(res);
-        _stringValue = res;
-        
-    }
 
-    public bool CheckValid()
-    {
-        return _type == null ? false : _type.CheckValue(_stringValue);
-    }
-}
-public class ExcelCell
-{
-    public object value;
-    public string stringValue;
-    public int index;
-    public ExcelRule rule;
-
-    byte[] _rgb;
-    public byte[] rgb
-    {
-        set
+        public bool CheckValid()
         {
-            _rgb = value;
-            rule = ExcelRuleUtil.GetExcelRule(_rgb[0], _rgb[1], _rgb[2]);
+            return _type == null ? false : _type.CheckValue(_stringValue);
         }
-        get { return _rgb; }
     }
-
-    public Color ruleColor
+    public class ExcelCell
     {
-        get
+        public object value;
+        public string stringValue;
+        public int index;
+        public ExcelRule rule;
+
+        byte[] _rgb;
+        public byte[] rgb
         {
-            return new Color(_rgb[0] / 255f, _rgb[1] / 255f, _rgb[2] / 255f);
+            set
+            {
+                _rgb = value;
+                rule = ExcelRuleUtil.GetExcelRule(_rgb[0], _rgb[1], _rgb[2]);
+            }
+            get { return _rgb; }
         }
-    }
 
-
-
-    public bool IsEmpty
-    {
-        get
+        public Color ruleColor
         {
-            return value == null || string.IsNullOrEmpty(stringValue);
+            get
+            {
+                return new Color(_rgb[0] / 255f, _rgb[1] / 255f, _rgb[2] / 255f);
+            }
         }
-    }
-}
 
-public class ExcelRow
-{
-    public int row;
-    public List<ExcelCell> cellList = new List<ExcelCell>();
-    public Dictionary<int, ExcelCell> cellMap = new Dictionary<int, ExcelCell>();
-    public bool isDirty = false;
-    //excelEditor使用
-    public ExcelRowType rowType;
 
-    public bool IsEmpty
-    {
-        get { return cellList == null || cellList.Count == 0; }
-    }
 
-    public int count { get { return cellList == null ? 0 : cellList.Count; } }
-
-    public void AddCell(ExcelCell cell)
-    {
-        cellList.Add(cell);
-        cellMap.Add(cell.index, cell);
-    }
-
-    public ExcelCell GetCell(int index)
-    {
-        if (cellMap.ContainsKey(index))
-            return cellMap[index];
-        return null;
-    }
-
-    //写数据时，不关心excelrule
-    public void SetCellData(int column, object obj, Type type)
-    {
-        if (!cellMap.ContainsKey(column))
+        public bool IsEmpty
         {
-            ExcelCell cell = new ExcelCell();
-            cell.index = column;
-            AddCell(cell);
+            get
+            {
+                return value == null || string.IsNullOrEmpty(stringValue);
+            }
         }
-       
-        cellMap[column].value = obj;
-        cellMap[column].stringValue = obj.ToString();
-        isDirty = true;
     }
-}
 
-public class ExcelData 
-{
-    public string fileName;
-    public List<ExcelRow> excelRows;
-
-    public int count { get { return excelRows == null? 0 : excelRows.Count; } }
-    public ExcelRow GetRow(int index)
+    public class ExcelRow
     {
-        if (index >= excelRows.Count)
+        public int row;
+        public List<ExcelCell> cellList = new List<ExcelCell>();
+        public Dictionary<int, ExcelCell> cellMap = new Dictionary<int, ExcelCell>();
+        public bool isDirty = false;
+        //excelEditor使用
+        public ExcelRowType rowType;
+
+        public bool IsEmpty
+        {
+            get { return cellList == null || cellList.Count == 0; }
+        }
+
+        public int count { get { return cellList == null ? 0 : cellList.Count; } }
+
+        public void AddCell(ExcelCell cell)
+        {
+            cellList.Add(cell);
+            cellMap.Add(cell.index, cell);
+        }
+
+        public ExcelCell GetCell(int index)
+        {
+            if (cellMap.ContainsKey(index))
+                return cellMap[index];
             return null;
-        return excelRows[index];
+        }
+
+        //写数据时，不关心excelrule
+        public void SetCellData(int column, object obj, Type type)
+        {
+            if (!cellMap.ContainsKey(column))
+            {
+                ExcelCell cell = new ExcelCell();
+                cell.index = column;
+                AddCell(cell);
+            }
+
+            cellMap[column].value = obj;
+            cellMap[column].stringValue = obj.ToString();
+            isDirty = true;
+        }
     }
 
-    public void SetCellValue(int row, int column, object value, Type type)
+    public class ExcelData
     {
-        if (row > count)
-        {
-            Debug.LogError("不能跨行插入   行 = " + count);
-            return;
-        }
-        if(row == count)
-        {
-            var excelRow = new ExcelRow();
-            excelRow.row = row;
-            excelRow.cellList = new List<ExcelCell>();
-            excelRows.Add(excelRow);
-        }
-        var changeRow = excelRows[row];
-        changeRow.SetCellData(column, value, type);
-    }
+        public string fileName;
+        public List<ExcelRow> excelRows;
 
-    //用于拷贝数据时
-    public void SetAllDirty()
-    {
-        for(int i = 0; i < excelRows.Count; i++)
+        public int count { get { return excelRows == null ? 0 : excelRows.Count; } }
+        public ExcelRow GetRow(int index)
         {
-            excelRows[i].isDirty = true;
+            if (index >= excelRows.Count)
+                return null;
+            return excelRows[index];
+        }
+
+        public void SetCellValue(int row, int column, object value, Type type)
+        {
+            if (row > count)
+            {
+                Debug.LogError("不能跨行插入   行 = " + count);
+                return;
+            }
+            if (row == count)
+            {
+                var excelRow = new ExcelRow();
+                excelRow.row = row;
+                excelRow.cellList = new List<ExcelCell>();
+                excelRows.Add(excelRow);
+            }
+            var changeRow = excelRows[row];
+            changeRow.SetCellData(column, value, type);
+        }
+
+        //用于拷贝数据时
+        public void SetAllDirty()
+        {
+            for (int i = 0; i < excelRows.Count; i++)
+            {
+                excelRows[i].isDirty = true;
+            }
         }
     }
-}
